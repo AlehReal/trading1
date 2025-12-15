@@ -1,0 +1,4 @@
+# Archivos de desarrollo local
+server-local.js
+.env
+server.log
