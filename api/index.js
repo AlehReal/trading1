@@ -254,8 +254,14 @@ app.post('/test-email', async (req, res) => {
 //-----------------------------------------------------
 // Iniciar servidor
 //-----------------------------------------------------
-app.listen(PORT, () => {
-  console.log(`\n🚀 Servidor Blue Makers ejecutándose en: http://localhost:${PORT}`);
-  console.log(`📧 Email configurado: ${emailTransporter ? '✅ Sí' : '❌ No'}`);
-  console.log(`👥 Skool configurado: ${process.env.SKOOL_WEBHOOK_URL ? '✅ Sí' : '❌ No'}`);
-});
+// Exportar para Vercel Serverless
+module.exports = app;
+
+// Solo iniciar servidor si se ejecuta localmente
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`\n🚀 Servidor Blue Makers ejecutándose en: http://localhost:${PORT}`);
+    console.log(`📧 Email configurado: ${emailTransporter ? '✅ Sí' : '❌ No'}`);
+    console.log(`👥 Skool configurado: ${process.env.SKOOL_WEBHOOK_URL ? '✅ Sí' : '❌ No'}`);
+  });
+}
