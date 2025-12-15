@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Makers Trading Academy</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --blue-dark: #0a1122;
+            --blue-mid: #112340;
+            --blue-light: #1b355e;
+            --text-white: #ffffff;
+            --text-light: #b4c0db;
+            --button-blue: #1677ff;
+            --button-blue-hover: #0e57c5;
+            --card-bg: #0f1e36;
+            --card-border: #1b3358;
+            --font: 'Montserrat', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font);
+            background-color: var(--blue-dark);
+            color: var(--text-white);
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+        }
+
+        /* HERO SECTION */
+        #hero {
+            background: url('hero.png');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 20px 140px 20px;
+            text-align: center;
+        }
+
+        #hero .logo-img {
+            width: 200px;
+            margin-bottom: 40px;
+        }
+
+        #hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            max-width: 850px;
+            margin: 0 auto 25px;
+            line-height: 1.3;
+        }
+
+        #hero .highlight {
+            color: #4ea8ff;
+        }
+
+        #hero p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 35px;
+        }
+
+        #hero button {
+            background-color: var(--button-blue);
+            border: none;
+            padding: 15px 45px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-white);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #hero button:hover {
+            background-color: var(--button-blue-hover);
+        }
+
+        /* FEATURES */
+        #features {
+            margin-top: -90px;
+            padding: 40px 20px 80px 20px;
+        }
+
+        .features-wrapper {
+            background: var(--blue-mid);
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            gap: 30px;
+            justify-content: space-between;
+        }
+
+        .feature {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature img {
+            width: 60px;
+            margin-bottom: 20px;
+        }
+
+        .feature h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .feature p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* VIDEO / QUIENES SOMOS */
+        #about-video {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        #about-video h2 {
+            margin-bottom: 40px;
+            font-size: 1.6rem;
+        }
+
+        #about-video video {
+            max-width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 0 30px rgba(78, 168, 255, 0.5);
+        }
+
+        /* DISCLAIMER */
+        #disclaimer {
+            background: var(--blue-mid);
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        #disclaimer p {
+            max-width: 1000px;
+            margin: auto;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 17, 34, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--blue-mid);
+            padding: 40px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            color: #4ea8ff;
+        }
+
+        .modal p {
+            color: var(--text-light);
+            margin-bottom: 25px;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            background: var(--blue-dark);
+            color: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .modal input:focus {
+            outline: none;
+            border-color: #4ea8ff;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .modal-buttons .btn-primary {
+            background-color: var(--button-blue);
+            color: white;
+        }
+
+        .modal-buttons .btn-primary:hover {
+            background-color: var(--button-blue-hover);
+        }
+
+        .modal-buttons .btn-secondary {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--card-border);
+        }
+
+        .modal-buttons .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* RESPONSIVE */
+        @media(max-width: 900px) {
+            .features-wrapper {
+                flex-direction: column;
+            }
+        }
+
+        @media(max-width: 600px) {
+            #hero h1 {
+                font-size: 2rem;
+            }
+            
+            .modal-content {
+                padding: 30px 20px;
+            }
+            
+            .modal-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <section id="hero">
+        <img src="logo.png" class="logo-img">
+        <h1>
+            Learn the proven system that has helped
+            <span class="highlight">5,000+ traders</span> trade the right way
+        </h1>
+        <p>If you're ready to become a next level trader, apply now...</p>
+        <button id="checkout-button">Start Trading Today</button>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features">
+        <div class="features-wrapper">
+            <div class="feature">
+                <img src="icon1.png">
+                <h3>More Freedom, Less Screen Time</h3>
+                <p>Less analyze for inner trading system, more freedom not on less screen time.</p>
+            </div>
+
+            <div class="feature">
+                <img src="icon2.png">
+                <h3>High-Probability Setups</h3>
+                <p>High probability setups with clear indication team.</p>
+            </div>
+
+            <div class="feature">
+                <img src="icon3.png">
+                <h3>Fits Any Schedule</h3>
+                <p>Fits any schedule and designed for both new and advanced traders.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUIENES SOMOS / VIDEO -->
+    <section id="about-video">
+        <h2>Who We Are</h2>
+        <video controls>
+            <source src="quienes-somos.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </section>
+
+    <!-- DISCLAIMER -->
+    <section id="disclaimer">
+        <p>
+            Standard trading risk warnings, high risk of loss or patrons and unavoidable dangers.
+            Past performance not guarantees future results...
+            (Texto replicado tal cual la imagen).
+        </p>
+    </section>
+
+    <footer>
+        Created by Blue Makers Trading Academy · 2025
+    </footer>
+
+    <!-- EMAIL MODAL -->
+    <div id="emailModal" class="modal">
+        <div class="modal-content">
+            <h2>📧 Ingresa tu email</h2>
+            <p>Por favor, ingresa tu dirección de email para continuar con el proceso de pago. Te enviaremos la confirmación y acceso a la comunidad a esta dirección.</p>
+            <input type="email" id="userEmail" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+            <div class="modal-buttons">
+                <button class="btn-secondary" id="cancelBtn">Cancelar</button>
+                <button class="btn-primary" id="confirmBtn">Continuar al Pago</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STRIPE -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Inicializa Stripe con la clave publicable obtenida del servidor
+        let stripe;
+        
+        async function initStripe() {
+            try {
+                const configRes = await fetch('/config');
+                const config = await configRes.json();
+                if (!config.publishableKey) {
+                    console.error('Falta STRIPE_PUBLISHABLE_KEY en el servidor.');
+                    alert('Error de configuración. Por favor, contacta al soporte.');
+                    return;
+                }
+
+                stripe = Stripe(config.publishableKey);
+                
+                // Configurar el botón principal
+                document.getElementById('checkout-button').addEventListener('click', () => {
+                    showEmailModal();
+                });
+
+            } catch (err) {
+                console.error('Error inicializando Stripe:', err);
+                alert('Error al inicializar el sistema de pagos. Por favor, recarga la página.');
+            }
+        }
+
+        // Mostrar modal para email
+        function showEmailModal() {
+            document.getElementById('emailModal').style.display = 'flex';
+            document.getElementById('userEmail').focus();
+        }
+
+        // Ocultar modal
+        function hideEmailModal() {
+            document.getElementById('emailModal').style.display = 'none';
+            document.getElementById('userEmail').value = '';
+        }
+
+        // Validar email
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Procesar checkout
+        async function processCheckout(email) {
+            try {
+                // Crear la sesión en el servidor de forma segura
+                const res = await fetch('/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                
+                const data = await res.json();
+                
+                if (data.id) {
+                    const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
+                    if (error) {
+                        console.error('Error de Stripe:', error);
+                        alert('Error al redirigir al pago: ' + error.message);
+                    }
+                } else {
+                    console.error('Error al crear la sesión de Checkout', data);
+                    alert('Error: ' + (data.error || 'No se pudo crear la sesión de pago'));
+                }
+            } catch (err) {
+                console.error('Error procesando checkout:', err);
+                alert('Error de conexión. Por favor, intenta de nuevo.');
+            }
+        }
+
+        // Configurar eventos del modal
+        document.addEventListener('DOMContentLoaded', () => {
+            const emailInput = document.getElementById('userEmail');
+            const confirmBtn = document.getElementById('confirmBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const modal = document.getElementById('emailModal');
+
+            // Confirmar email
+            confirmBtn.addEventListener('click', () => {
+                const email = emailInput.value.trim();
+                
+                if (!email) {
+                    alert('Por favor, ingresa tu email');
+                    return;
+                }
+                
+                if (!isValidEmail(email)) {
+                    alert('Por favor, ingresa un email válido');
+                    return;
+                }
+                
+                hideEmailModal();
+                processCheckout(email);
+            });
+
+            // Cancelar
+            cancelBtn.addEventListener('click', hideEmailModal);
+
+            // Cerrar modal al hacer clic fuera
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    hideEmailModal();
+                }
+            });
+
+            // Permitir Enter en el input
+            emailInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    confirmBtn.click();
+                }
+            });
+
+            // Inicializar Stripe
+            initStripe();
+        });
+    </script>
+
+</body>
+
+</html>
