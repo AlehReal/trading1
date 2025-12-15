@@ -260,3 +260,4 @@ app.listen(PORT, () => {
   console.log(`📧 Email configurado: ${emailTransporter ? '✅ Sí' : '❌ No'}`);
   console.log(`👥 Skool configurado: ${process.env.SKOOL_WEBHOOK_URL ? '✅ Sí' : '❌ No'}`);
 });
+
