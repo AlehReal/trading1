@@ -1,0 +1,34 @@
+Checking for new versions...
+
+A newer version of the Stripe CLI is available, please update to: v1.34.0
+Getting ready...
+Ready! You are using Stripe API Version [2025-11-17.clover]. Your webhook signing secret is whsec_be32bb07fa40d1b3c51553b1947e12697294d6c704c1f3b5773eb07e85251083 (^C to quit)
+2025-12-18 09:47:23   --> product.created [evt_1SflINCZZFcpgC7UYeuZmnbl]
+2025-12-18 09:47:24  <--  [400] POST http://localhost:8080/webhook [evt_1SflINCZZFcpgC7UYeuZmnbl]
+2025-12-18 09:47:25   --> price.created [evt_1SflIPCZZFcpgC7UN7dahTsg]
+2025-12-18 09:47:25  <--  [400] POST http://localhost:8080/webhook [evt_1SflIPCZZFcpgC7UN7dahTsg]
+2025-12-18 09:47:32   --> charge.succeeded [evt_3SflIUCZZFcpgC7U04dkYCcf]
+2025-12-18 09:47:32   --> payment_intent.succeeded [evt_3SflIUCZZFcpgC7U03dfLyAz]
+2025-12-18 09:47:32  <--  [400] POST http://localhost:8080/webhook [evt_3SflIUCZZFcpgC7U04dkYCcf]
+2025-12-18 09:47:32  <--  [400] POST http://localhost:8080/webhook [evt_3SflIUCZZFcpgC7U03dfLyAz]
+2025-12-18 09:47:32   --> payment_intent.created [evt_3SflIUCZZFcpgC7U0zq7ZrTJ]
+2025-12-18 09:47:32   --> checkout.session.completed [evt_1SflIVCZZFcpgC7Uo8fxR8sw]
+2025-12-18 09:47:32  <--  [400] POST http://localhost:8080/webhook [evt_3SflIUCZZFcpgC7U0zq7ZrTJ]
+2025-12-18 09:47:32  <--  [400] POST http://localhost:8080/webhook [evt_1SflIVCZZFcpgC7Uo8fxR8sw]
+2025-12-18 09:47:35   --> charge.updated [evt_3SflIUCZZFcpgC7U0dl6VLcV]
+2025-12-18 09:47:35  <--  [400] POST http://localhost:8080/webhook [evt_3SflIUCZZFcpgC7U0dl6VLcV]
+2025-12-18 09:50:35   --> product.created [evt_1SflLTCZZFcpgC7UACGA0dmA]
+2025-12-18 09:50:36  <--  [200] POST http://localhost:8080/webhook [evt_1SflLTCZZFcpgC7UACGA0dmA]
+2025-12-18 09:50:37   --> price.created [evt_1SflLUCZZFcpgC7U9zX2bmAX]
+2025-12-18 09:50:37  <--  [200] POST http://localhost:8080/webhook [evt_1SflLUCZZFcpgC7U9zX2bmAX]
+2025-12-18 09:50:44   --> charge.succeeded [evt_3SflLZCZZFcpgC7U10qYwqLE]
+2025-12-18 09:50:44  <--  [200] POST http://localhost:8080/webhook [evt_3SflLZCZZFcpgC7U10qYwqLE]
+2025-12-18 09:50:44   --> payment_intent.succeeded [evt_3SflLZCZZFcpgC7U13terqjI]
+2025-12-18 09:50:44  <--  [200] POST http://localhost:8080/webhook [evt_3SflLZCZZFcpgC7U13terqjI]
+2025-12-18 09:50:44   --> payment_intent.created [evt_3SflLZCZZFcpgC7U1yCbXz5d]
+2025-12-18 09:50:44  <--  [200] POST http://localhost:8080/webhook [evt_3SflLZCZZFcpgC7U1yCbXz5d]
+2025-12-18 09:50:45   --> checkout.session.completed [evt_1SflLbCZZFcpgC7UfsXHuTrt]
+2025-12-18 09:50:45  <--  [200] POST http://localhost:8080/webhook [evt_1SflLbCZZFcpgC7UfsXHuTrt]
+2025-12-18 09:50:46   --> charge.updated [evt_3SflLZCZZFcpgC7U1nwNw2Vg]
+2025-12-18 09:50:46  <--  [200] POST http://localhost:8080/webhook [evt_3SflLZCZZFcpgC7U1nwNw2Vg]
+time="Thu, 18 Dec 2025 09:54:59 PST" level=error msg="Error when writing ping message: websocket: close sent" prefix=websocket.Client.writePump

@@ -1,0 +1,84 @@
+{
+  "cs_test_a1pIZL2347fMFbkI8PHI4bgJltjcl7xIeqH0JwgoODJHVKlWOqhTLfTJ8a": {
+    "id": "cs_test_a1pIZL2347fMFbkI8PHI4bgJltjcl7xIeqH0JwgoODJHVKlWOqhTLfTJ8a",
+    "createdAt": "2025-12-18T17:50:45.297Z",
+    "updatedAt": "2025-12-18T17:50:52.453Z",
+    "status": "finished",
+    "attempts": 0,
+    "data": {
+      "sessionId": "cs_test_a1pIZL2347fMFbkI8PHI4bgJltjcl7xIeqH0JwgoODJHVKlWOqhTLfTJ8a",
+      "email": "stripe@example.com",
+      "name": "Jenny Rosen",
+      "amount_total": 3000,
+      "currency": "usd",
+      "metadata": {}
+    },
+    "logs": [
+      {
+        "ts": "2025-12-18T17:50:45.300Z",
+        "entry": "Pipeline created for session cs_test_a1pIZL2347fMFbkI8PHI4bgJltjcl7xIeqH0JwgoODJHVKlWOqhTLfTJ8a"
+      },
+      {
+        "ts": "2025-12-18T17:50:45.304Z",
+        "entry": "Processing pipeline"
+      },
+      {
+        "ts": "2025-12-18T17:50:45.313Z",
+        "entry": "Step: inviteToSkool"
+      },
+      {
+        "ts": "2025-12-18T17:50:46.889Z",
+        "entry": "inviteToSkool result: {\"ok\":true,\"attempt\":1,\"result\":{\"ok\":true,\"status\":200,\"body\":\"\",\"invited\":true,\"urlUsed\":\"https://api2.skool.com/groups/lobainatech-5121/webhooks/98c6e8b453594c42a58c0ec9a0fcddff?email=stripe%40example.com\"}}"
+      },
+      {
+        "ts": "2025-12-18T17:50:46.894Z",
+        "entry": "Step: sendPaidMemberToCRM"
+      },
+      {
+        "ts": "2025-12-18T17:50:46.896Z",
+        "entry": "sendPaidMemberToCRM result: {\"ok\":true,\"attempt\":1,\"result\":{\"skipped\":true,\"reason\":\"No CRM_ENDPOINT\"}}"
+      },
+      {
+        "ts": "2025-12-18T17:50:46.898Z",
+        "entry": "Step: sendWelcomeEmail"
+      },
+      {
+        "ts": "2025-12-18T17:50:52.443Z",
+        "entry": "sendWelcomeEmail result: {\"ok\":true,\"attempt\":1,\"result\":{\"success\":true,\"messageId\":\"<18126c7d-1a8f-4d6d-e216-ed3967b65993@gmail.com>\"}}"
+      },
+      {
+        "ts": "2025-12-18T17:50:52.453Z",
+        "entry": "Pipeline finished successfully"
+      }
+    ],
+    "steps": {
+      "invite": {
+        "ok": true,
+        "attempt": 1,
+        "result": {
+          "ok": true,
+          "status": 200,
+          "body": "",
+          "invited": true,
+          "urlUsed": "https://api2.skool.com/groups/lobainatech-5121/webhooks/98c6e8b453594c42a58c0ec9a0fcddff?email=stripe%40example.com"
+        }
+      },
+      "crm": {
+        "ok": true,
+        "attempt": 1,
+        "result": {
+          "skipped": true,
+          "reason": "No CRM_ENDPOINT"
+        }
+      },
+      "email": {
+        "ok": true,
+        "attempt": 1,
+        "result": {
+          "success": true,
+          "messageId": "<18126c7d-1a8f-4d6d-e216-ed3967b65993@gmail.com>"
+        }
+      }
+    }
+  }
+}
