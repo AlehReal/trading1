@@ -293,10 +293,11 @@ app.post('/webhook', async (req, res) => {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  // Procesar pago exitoso: creamos pipeline y respondemos rápido
+    // Procesar pago exitoso: creamos pipeline y respondemos rápido
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
-    const email = session.customer_details?.email || session.customer_email;
+    // Priorizar el email proporcionado en metadata (user_email) cuando exista.
+    const email = session.metadata?.user_email || session.customer_details?.email || session.customer_email;
     const name = session.customer_details?.name || '';
 
     console.log(`\n💰 Pago completado (session=${session.id}) para: ${email}`);

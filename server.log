@@ -4,9 +4,3 @@ nohup: no se tendrá en cuenta la entrada
 🚀 Servidor Blue Makers ejecutándose en: http://localhost:8080
 📧 Email configurado: ✅ Sí
 👥 Skool configurado: ✅ Sí
-
-💰 Pago completado (session=cs_test_a1pIZL2347fMFbkI8PHI4bgJltjcl7xIeqH0JwgoODJHVKlWOqhTLfTJ8a) para: stripe@example.com
-📤 Invitando a Skool: stripe@example.com
-🔗 URL: https://api2.skool.com/groups/lobainatech-5121/webhooks/98c6e8b453594c42a58c0ec9a0fcddff?email=stripe%40example.com
-📨 Respuesta Skool (200): 
-✅ Email enviado a: stripe@example.com (<18126c7d-1a8f-4d6d-e216-ed3967b65993@gmail.com>)
