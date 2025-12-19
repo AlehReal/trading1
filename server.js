@@ -9,8 +9,7 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');  // CAMBIO: Usar axios en lugar de node-fetch
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const nodemailer = require('nodemailer');
-const { htmlToText } = require('nodemailer-html-to-text');
+// Email sending removed: webhook URL will handle emails upstream
 const pipelineStore = require('./lib/pipeline-store');
 
 //-----------------------------------------------------
@@ -35,22 +34,7 @@ if (!process.env.SKOOL_WEBHOOK_URL) {
 //-----------------------------------------------------
 // CONFIGURACIÓN DE CORREO
 //-----------------------------------------------------
-let emailTransporter;
-if (process.env.EMAIL_HOST && process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-  emailTransporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT || 587,
-    secure: process.env.EMAIL_PORT == 465,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
-  });
-  emailTransporter.use('compile', htmlToText());
-  console.log('✅ Servidor de correo configurado.');
-} else {
-  console.warn('⚠ ATENCIÓN: Configuración de email incompleta. No se enviarán correos.');
-}
+// Email sending removed: the Skool webhook will handle emails.
 
 //-----------------------------------------------------
 // EXPRESS
@@ -153,42 +137,7 @@ async function sendPaidMemberToCRM(member) {
   }
 }
 
-//-----------------------------------------------------
-// 2. FUNCIÓN: Enviar Email de Bienvenida
-//-----------------------------------------------------
-async function sendWelcomeEmail(email, name = '') {
-  if (!emailTransporter) {
-    console.warn('Servicio de email no disponible. Omitiendo.');
-    return { skipped: true };
-  }
-
-  const skoolUrl = process.env.SKOOL_COMMUNITY_URL || 'https://app.skool.com/';
-  const adminEmail = process.env.ADMIN_EMAIL;
-
-  const mailOptions = {
-    from: process.env.EMAIL_FROM,
-    to: email,
-    bcc: adminEmail,
-    subject: '🎉 ¡Bienvenido a Blue Makers Trading Academy!',
-    html: `<!DOCTYPE html><html><body style="font-family: Arial;">
-      <h2>¡Bienvenido${name ? ' ' + name : ''}!</h2>
-      <p>Tu inscripción ha sido confirmada. Accede a nuestra comunidad aquí:</p>
-      <p><a href="${skoolUrl}" style="background:#1677ff;color:white;padding:12px 20px;text-decoration:none;border-radius:5px;display:inline-block;">🚀 Ir a la Comunidad Skool</a></p>
-      <p><strong>Enlace directo:</strong> <a href="${skoolUrl}">${skoolUrl}</a></p>
-      <hr>
-      <p><small>Blue Makers Trading Academy</small></p>
-    </body></html>`
-  };
-
-  try {
-    const info = await emailTransporter.sendMail(mailOptions);
-    console.log(`✅ Email enviado a: ${email} (${info.messageId})`);
-    return { success: true, messageId: info.messageId };
-  } catch (error) {
-    console.error(`❌ Error enviando email:`, error.message);
-    return { error: error.message };
-  }
-}
+// Email sending removed — emails are sent by the Skool webhook.
 
 // -----------------------------------------------------
 // PIPELINE PROCESSOR
@@ -217,24 +166,24 @@ async function processPipeline(pipelineId, storePath) {
   const maxAttempts = parseInt(process.env.PIPELINE_RETRY_COUNT || '3', 10);
   const baseMs = parseInt(process.env.PIPELINE_RETRY_BASE_MS || '1000', 10);
 
-  const p = pipelineStore.getPipeline(pipelineId, storePath);
+  const p = await pipelineStore.getPipeline(pipelineId, storePath);
   if (!p) {
     console.error('Pipeline not found:', pipelineId);
     return;
   }
   // Idempotencia: si ya finished, no procesar
   if (p.status === 'finished') {
-    pipelineStore.appendLog(pipelineId, 'Pipeline already finished, skipping', storePath);
+    await pipelineStore.appendLog(pipelineId, 'Pipeline already finished, skipping', storePath);
     return;
   }
 
-  pipelineStore.updatePipeline(pipelineId, { status: 'in_progress' }, storePath);
-  pipelineStore.appendLog(pipelineId, 'Processing pipeline', storePath);
+  await pipelineStore.updatePipeline(pipelineId, { status: 'in_progress' }, storePath);
+  await pipelineStore.appendLog(pipelineId, 'Processing pipeline', storePath);
 
   // Paso 1: Invitar a Skool
-  pipelineStore.appendLog(pipelineId, 'Step: inviteToSkool', storePath);
+  await pipelineStore.appendLog(pipelineId, 'Step: inviteToSkool', storePath);
   // Recargar pipeline para comprobar si ya se ejecutó el paso (pre-invite)
-  let current = pipelineStore.getPipeline(pipelineId, storePath) || {};
+  let current = (await pipelineStore.getPipeline(pipelineId, storePath)) || {};
   const existingInvite = current.steps && current.steps.invite;
   let inviteRes;
   if (existingInvite && existingInvite.ok) {
@@ -242,20 +191,20 @@ async function processPipeline(pipelineId, storePath) {
     inviteRes = existingInvite;
   } else {
     inviteRes = await retryStep(inviteToSkool, [p.data.email], maxAttempts, baseMs);
-    pipelineStore.appendLog(pipelineId, `inviteToSkool result: ${JSON.stringify(inviteRes)}`, storePath);
-    current = pipelineStore.getPipeline(pipelineId, storePath) || {};
-    pipelineStore.updatePipeline(pipelineId, { steps: Object.assign(current.steps || {}, { invite: inviteRes }) }, storePath);
+    await pipelineStore.appendLog(pipelineId, `inviteToSkool result: ${JSON.stringify(inviteRes)}`, storePath);
+    current = (await pipelineStore.getPipeline(pipelineId, storePath)) || {};
+    await pipelineStore.updatePipeline(pipelineId, { steps: Object.assign(current.steps || {}, { invite: inviteRes }) }, storePath);
     if (!inviteRes.ok) {
-      pipelineStore.updatePipeline(pipelineId, { status: 'failed' }, storePath);
-      pipelineStore.appendLog(pipelineId, 'Pipeline failed at invite step', storePath);
+      await pipelineStore.updatePipeline(pipelineId, { status: 'failed' }, storePath);
+      await pipelineStore.appendLog(pipelineId, 'Pipeline failed at invite step', storePath);
       return;
     }
   }
 
   // Paso 2: Enviar a CRM (opcional)
-  pipelineStore.appendLog(pipelineId, 'Step: sendPaidMemberToCRM', storePath);
+  await pipelineStore.appendLog(pipelineId, 'Step: sendPaidMemberToCRM', storePath);
   // Comprobar si ya existe resultado CRM
-  current = pipelineStore.getPipeline(pipelineId, storePath) || {};
+  current = (await pipelineStore.getPipeline(pipelineId, storePath)) || {};
   const existingCrm = current.steps && current.steps.crm;
   const member = { email: p.data.email, name: p.data.name, sessionId: p.data.sessionId };
   let crmRes;
@@ -264,16 +213,16 @@ async function processPipeline(pipelineId, storePath) {
     crmRes = existingCrm;
   } else {
     crmRes = await retryStep(sendPaidMemberToCRM, [member], maxAttempts, baseMs);
-    pipelineStore.appendLog(pipelineId, `sendPaidMemberToCRM result: ${JSON.stringify(crmRes)}`, storePath);
-    current = pipelineStore.getPipeline(pipelineId, storePath) || {};
-    pipelineStore.updatePipeline(pipelineId, { steps: Object.assign(current.steps || {}, { crm: crmRes }) }, storePath);
+    await pipelineStore.appendLog(pipelineId, `sendPaidMemberToCRM result: ${JSON.stringify(crmRes)}`, storePath);
+    current = (await pipelineStore.getPipeline(pipelineId, storePath)) || {};
+    await pipelineStore.updatePipeline(pipelineId, { steps: Object.assign(current.steps || {}, { crm: crmRes }) }, storePath);
   }
 
   // Paso 3: Unlock course si metadata.course_id
   const courseId = p.data.metadata && (p.data.metadata.course_id || p.data.metadata.courseId || p.data.metadata.course);
   if (courseId) {
-    pipelineStore.appendLog(pipelineId, `Step: unlockCourse (${courseId})`, storePath);
-    current = pipelineStore.getPipeline(pipelineId, storePath) || {};
+    await pipelineStore.appendLog(pipelineId, `Step: unlockCourse (${courseId})`, storePath);
+    current = (await pipelineStore.getPipeline(pipelineId, storePath)) || {};
     const existingUnlock = current.steps && current.steps.unlock;
     let unlockRes;
     if (existingUnlock && existingUnlock.ok) {
@@ -281,39 +230,19 @@ async function processPipeline(pipelineId, storePath) {
       unlockRes = existingUnlock;
     } else {
       unlockRes = await retryStep(unlockCourseForMember, [p.data.email, courseId], maxAttempts, baseMs);
-      pipelineStore.appendLog(pipelineId, `unlockCourseForMember result: ${JSON.stringify(unlockRes)}`, storePath);
-      current = pipelineStore.getPipeline(pipelineId, storePath) || {};
-      pipelineStore.updatePipeline(pipelineId, { steps: Object.assign(current.steps || {}, { unlock: unlockRes }) }, storePath);
+      await pipelineStore.appendLog(pipelineId, `unlockCourseForMember result: ${JSON.stringify(unlockRes)}`, storePath);
+      current = (await pipelineStore.getPipeline(pipelineId, storePath)) || {};
+      await pipelineStore.updatePipeline(pipelineId, { steps: Object.assign(current.steps || {}, { unlock: unlockRes }) }, storePath);
       if (!unlockRes.ok) {
-        pipelineStore.updatePipeline(pipelineId, { status: 'failed' }, storePath);
-        pipelineStore.appendLog(pipelineId, 'Pipeline failed at unlock step', storePath);
+        await pipelineStore.updatePipeline(pipelineId, { status: 'failed' }, storePath);
+        await pipelineStore.appendLog(pipelineId, 'Pipeline failed at unlock step', storePath);
         return;
       }
     }
   }
-
-  // Paso 4: Enviar email de bienvenida
-  pipelineStore.appendLog(pipelineId, 'Step: sendWelcomeEmail', storePath);
-  current = pipelineStore.getPipeline(pipelineId, storePath) || {};
-  const existingEmail = current.steps && current.steps.email;
-  let emailRes;
-  if (existingEmail && existingEmail.ok) {
-    pipelineStore.appendLog(pipelineId, 'Skipping sendWelcomeEmail (already succeeded)', storePath);
-    emailRes = existingEmail;
-  } else {
-    emailRes = await retryStep(sendWelcomeEmail, [p.data.email, p.data.name], maxAttempts, baseMs);
-    pipelineStore.appendLog(pipelineId, `sendWelcomeEmail result: ${JSON.stringify(emailRes)}`, storePath);
-    current = pipelineStore.getPipeline(pipelineId, storePath) || {};
-    pipelineStore.updatePipeline(pipelineId, { steps: Object.assign(current.steps || {}, { email: emailRes }) }, storePath);
-    if (!emailRes.ok) {
-      pipelineStore.updatePipeline(pipelineId, { status: 'failed' }, storePath);
-      pipelineStore.appendLog(pipelineId, 'Pipeline failed at email step', storePath);
-      return;
-    }
-  }
-
-  pipelineStore.updatePipeline(pipelineId, { status: 'finished' }, storePath);
-  pipelineStore.appendLog(pipelineId, 'Pipeline finished successfully', storePath);
+  // Finalizar pipeline (emails son enviadas por el webhook de Skool)
+  await pipelineStore.updatePipeline(pipelineId, { status: 'finished' }, storePath);
+  await pipelineStore.appendLog(pipelineId, 'Pipeline finished successfully', storePath);
 }
 
 //-----------------------------------------------------
@@ -348,7 +277,7 @@ app.post('/webhook', async (req, res) => {
     // Crear pipeline persistente
     const pipelineId = session.id;
     const storePath = process.env.PIPELINE_STORE_PATH || pipelineStore.DEFAULT_STORE_PATH;
-    const pipeline = pipelineStore.createPipeline(pipelineId, {
+    await pipelineStore.createPipeline(pipelineId, {
       sessionId: session.id,
       email,
       name,
@@ -357,15 +286,17 @@ app.post('/webhook', async (req, res) => {
       metadata: session.metadata || {}
     }, storePath);
 
-    pipelineStore.appendLog(pipelineId, `Pipeline created for session ${session.id}`, storePath);
+    await pipelineStore.appendLog(pipelineId, `Pipeline created for session ${session.id}`, storePath);
 
     // Process pipeline asynchronously (no bloqueamos la respuesta)
     (async () => {
-      await processPipeline(pipelineId, storePath);
-    })().catch(err => {
-      console.error('Error processing pipeline async:', err);
-      pipelineStore.appendLog(pipelineId, `Async processing error: ${err.message}`, storePath);
-    });
+      try {
+        await processPipeline(pipelineId, storePath);
+      } catch (err) {
+        console.error('Error processing pipeline async:', err);
+        await pipelineStore.appendLog(pipelineId, `Async processing error: ${err.message}`, storePath);
+      }
+    })();
   }
 
   res.json({ received: true });
@@ -407,8 +338,7 @@ app.post('/create-checkout-session', async (req, res) => {
 app.get('/config', (req, res) => {
   res.json({
     publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-    skoolConfigured: !!process.env.SKOOL_WEBHOOK_URL,
-    emailConfigured: !!emailTransporter
+    skoolConfigured: !!process.env.SKOOL_WEBHOOK_URL
   });
 });
 
@@ -419,41 +349,43 @@ app.post('/test-skool-invite', async (req, res) => {
   res.json({ email, ...result });
 });
 
-app.post('/test-email', async (req, res) => {
-  const { email } = req.body;
-  if (!email) return res.status(400).json({ error: 'Falta email' });
-  const result = await sendWelcomeEmail(email, 'Usuario de Prueba');
-  res.json(result);
-});
-
 // -----------------------------------------------------
 // Endpoints para supervisión y reintento de pipelines
 // -----------------------------------------------------
 app.get('/pipelines', (req, res) => {
-  const storePath = process.env.PIPELINE_STORE_PATH || pipelineStore.DEFAULT_STORE_PATH;
-  res.json(pipelineStore.listPipelines(storePath));
+  (async () => {
+    const storePath = process.env.PIPELINE_STORE_PATH || pipelineStore.DEFAULT_STORE_PATH;
+    const list = await pipelineStore.listPipelines(storePath);
+    res.json(list);
+  })().catch(err => res.status(500).json({ error: err.message }));
 });
 
 app.get('/pipelines/:id', (req, res) => {
-  const id = req.params.id;
-  const storePath = process.env.PIPELINE_STORE_PATH || pipelineStore.DEFAULT_STORE_PATH;
-  const p = pipelineStore.getPipeline(id, storePath);
-  if (!p) return res.status(404).json({ error: 'Pipeline no encontrada' });
-  res.json(p);
+  (async () => {
+    const id = req.params.id;
+    const storePath = process.env.PIPELINE_STORE_PATH || pipelineStore.DEFAULT_STORE_PATH;
+    const p = await pipelineStore.getPipeline(id, storePath);
+    if (!p) return res.status(404).json({ error: 'Pipeline no encontrada' });
+    res.json(p);
+  })().catch(err => res.status(500).json({ error: err.message }));
 });
 
 app.post('/pipelines/:id/retry', async (req, res) => {
   const id = req.params.id;
   const storePath = process.env.PIPELINE_STORE_PATH || pipelineStore.DEFAULT_STORE_PATH;
-  const p = pipelineStore.getPipeline(id, storePath);
+  const p = await pipelineStore.getPipeline(id, storePath);
   if (!p) return res.status(404).json({ error: 'Pipeline no encontrada' });
   if (p.status === 'finished') return res.status(400).json({ error: 'Pipeline ya finalizada' });
 
-  pipelineStore.appendLog(id, 'Manual retry requested', storePath);
+  await pipelineStore.appendLog(id, 'Manual retry requested', storePath);
   // Lanzar procesamiento async
   (async () => {
-    await processPipeline(id, storePath);
-  })().catch(err => pipelineStore.appendLog(id, `Retry error: ${err.message}`, storePath));
+    try {
+      await processPipeline(id, storePath);
+    } catch (err) {
+      await pipelineStore.appendLog(id, `Retry error: ${err.message}`, storePath);
+    }
+  })();
 
   res.json({ ok: true, message: 'Retry iniciado' });
 });
@@ -464,7 +396,6 @@ app.post('/pipelines/:id/retry', async (req, res) => {
 // Exportar para Vercel Serverless
 app.listen(PORT, () => {
   console.log(`\n🚀 Servidor Blue Makers ejecutándose en: http://localhost:${PORT}`);
-  console.log(`📧 Email configurado: ${emailTransporter ? '✅ Sí' : '❌ No'}`);
   console.log(`👥 Skool configurado: ${process.env.SKOOL_WEBHOOK_URL ? '✅ Sí' : '❌ No'}`);
 });
 

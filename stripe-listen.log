@@ -34,3 +34,4 @@ Ready! You are using Stripe API Version [2025-11-17.clover]. Your webhook signin
 time="Thu, 18 Dec 2025 09:54:59 PST" level=error msg="Error when writing ping message: websocket: close sent" prefix=websocket.Client.writePump
 time="Thu, 18 Dec 2025 10:11:32 PST" level=error msg="Error when writing ping message: websocket: close sent" prefix=websocket.Client.writePump
 time="Thu, 18 Dec 2025 10:27:03 PST" level=error msg="Error when writing ping message: websocket: close sent" prefix=websocket.Client.writePump
+

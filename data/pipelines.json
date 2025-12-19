@@ -80,5 +80,89 @@
         }
       }
     }
+  },
+  "cs_test_manual_1766158226": {
+    "id": "cs_test_manual_1766158226",
+    "createdAt": "2025-12-19T15:33:11.136Z",
+    "updatedAt": "2025-12-19T15:33:17.201Z",
+    "status": "finished",
+    "attempts": 0,
+    "data": {
+      "sessionId": "cs_test_manual_1766158226",
+      "email": "danilonavarro040@gmail.com",
+      "name": "Dani Navarro",
+      "amount_total": 1000,
+      "currency": "usd",
+      "metadata": {
+        "user_email": "danilonavarro040@gmail.com"
+      }
+    },
+    "logs": [
+      {
+        "ts": "2025-12-19T15:33:11.142Z",
+        "entry": "Pipeline created for session cs_test_manual_1766158226"
+      },
+      {
+        "ts": "2025-12-19T15:33:11.163Z",
+        "entry": "Processing pipeline"
+      },
+      {
+        "ts": "2025-12-19T15:33:11.205Z",
+        "entry": "Step: inviteToSkool"
+      },
+      {
+        "ts": "2025-12-19T15:33:12.631Z",
+        "entry": "inviteToSkool result: {\"ok\":true,\"attempt\":1,\"result\":{\"ok\":true,\"status\":200,\"body\":\"\",\"invited\":true,\"urlUsed\":\"https://api2.skool.com/groups/lobainatech-5121/webhooks/98c6e8b453594c42a58c0ec9a0fcddff?email=danilonavarro040%40gmail.com\"}}"
+      },
+      {
+        "ts": "2025-12-19T15:33:12.669Z",
+        "entry": "Step: sendPaidMemberToCRM"
+      },
+      {
+        "ts": "2025-12-19T15:33:12.699Z",
+        "entry": "sendPaidMemberToCRM result: {\"ok\":true,\"attempt\":1,\"result\":{\"skipped\":true,\"reason\":\"No CRM_ENDPOINT\"}}"
+      },
+      {
+        "ts": "2025-12-19T15:33:12.717Z",
+        "entry": "Step: sendWelcomeEmail"
+      },
+      {
+        "ts": "2025-12-19T15:33:17.196Z",
+        "entry": "sendWelcomeEmail result: {\"ok\":true,\"attempt\":1,\"result\":{\"success\":true,\"messageId\":\"<fbf9ea4b-dab9-214e-404f-4a11415fe169@gmail.com>\"}}"
+      },
+      {
+        "ts": "2025-12-19T15:33:17.201Z",
+        "entry": "Pipeline finished successfully"
+      }
+    ],
+    "steps": {
+      "invite": {
+        "ok": true,
+        "attempt": 1,
+        "result": {
+          "ok": true,
+          "status": 200,
+          "body": "",
+          "invited": true,
+          "urlUsed": "https://api2.skool.com/groups/lobainatech-5121/webhooks/98c6e8b453594c42a58c0ec9a0fcddff?email=danilonavarro040%40gmail.com"
+        }
+      },
+      "crm": {
+        "ok": true,
+        "attempt": 1,
+        "result": {
+          "skipped": true,
+          "reason": "No CRM_ENDPOINT"
+        }
+      },
+      "email": {
+        "ok": true,
+        "attempt": 1,
+        "result": {
+          "success": true,
+          "messageId": "<fbf9ea4b-dab9-214e-404f-4a11415fe169@gmail.com>"
+        }
+      }
+    }
   }
 }
