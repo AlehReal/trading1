@@ -382,6 +382,21 @@ app.post('/pipelines/:id/retry', async (req, res) => {
   (async () => {
     try {
       await processPipeline(id, storePath);
+// Health check endpoint for PaaS
+app.get('/health', (req, res) => {
+  res.json({ ok: true, uptime: process.uptime(), timestamp: new Date().toISOString() });
+});
+
+// Pre-initialize pipeline store directory/file (useful for Railway ephemeral/Persistent Storage)
+const storePath = process.env.PIPELINE_STORE_PATH || pipelineStore.DEFAULT_STORE_PATH;
+try {
+  if (pipelineStore && typeof pipelineStore.loadStore === 'function') {
+    pipelineStore.loadStore(storePath);
+    console.log(`🗄️  Pipeline store ready at: ${storePath}`);
+  }
+} catch (err) {
+  console.warn('Could not initialize pipeline store:', err.message || err);
+}
     } catch (err) {
       await pipelineStore.appendLog(id, `Retry error: ${err.message}`, storePath);
     }
