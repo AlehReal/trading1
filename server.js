@@ -252,12 +252,22 @@ app.post('/webhook', async (req, res) => {
   const sig = req.headers['stripe-signature'];
   let event;
 
-  try {
-    const rawBody = req.rawBody || Buffer.from(JSON.stringify(req.body));
-    event = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET);
-  } catch (err) {
-    console.error("❌ Error en webhook de Stripe:", err.message);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
+  // Allow skipping signature verification for local testing when SKIP_STRIPE_SIGNATURE=1
+  if (process.env.SKIP_STRIPE_SIGNATURE === '1') {
+    try {
+      event = req.body;
+    } catch (err) {
+      console.error('Error parsing webhook body in test mode:', err.message || err);
+      return res.status(400).send('Webhook Error: bad body');
+    }
+  } else {
+    try {
+      const rawBody = req.rawBody || Buffer.from(JSON.stringify(req.body));
+      event = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    } catch (err) {
+      console.error("❌ Error en webhook de Stripe:", err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
   }
 
     // Procesar pago exitoso: creamos pipeline y respondemos rápido
