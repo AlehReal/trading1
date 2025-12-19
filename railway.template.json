@@ -1,0 +1,18 @@
+{
+  "service": "web",
+  "env": {
+    "STRIPE_SECRET_KEY": "",
+    "STRIPE_PUBLISHABLE_KEY": "",
+    "STRIPE_WEBHOOK_SECRET": "",
+    "PRICE_ID": "",
+    "SUCCESS_URL": "https://<your-app>.railway.app/gracias.html",
+    "CANCEL_URL": "https://<your-app>.railway.app/cancelado.html",
+    "SKOOL_WEBHOOK_URL": "https://api2.skool.com/groups/your-group/webhooks/your-webhook",
+    "SKOOL_COMMUNITY_URL": "",
+    "CRM_ENDPOINT": "",
+    "CRM_API_KEY": "",
+    "PIPELINE_STORE_PATH": "./data/pipelines.json",
+    "PIPELINE_RETRY_COUNT": "3",
+    "PIPELINE_RETRY_BASE_MS": "1000"
+  }
+}
