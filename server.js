@@ -390,32 +390,10 @@ app.post('/create-checkout-session', async (req, res) => {
       metadata: { user_email: email }
     });
 
-    // Crear pipeline inmediatamente (pre-invite) usando el email proporcionado
-    try {
-      const pipelineId = session.id;
-      const storePath = process.env.PIPELINE_STORE_PATH || pipelineStore.DEFAULT_STORE_PATH;
-      const pipeline = pipelineStore.createPipeline(pipelineId, {
-        sessionId: session.id,
-        email,
-        name: req.body.name || '',
-        amount_total: null,
-        currency: null,
-        metadata: { user_email: email }
-      }, storePath);
-
-      pipelineStore.appendLog(pipelineId, `Pipeline created (pre-invite) for session ${session.id}`, storePath);
-
-      // Lanzar procesamiento asíncrono para ejecutar pre-invite
-      (async () => {
-        await processPipeline(pipelineId, storePath);
-      })().catch(err => {
-        console.error('Error processing pipeline (pre-invite):', err);
-        pipelineStore.appendLog(pipelineId, `Pre-invite processing error: ${err.message}`, storePath);
-      });
-    } catch (err) {
-      console.error('Error creando pipeline en create-checkout-session:', err.message || err);
-    }
-
+    // Nota: no crear ni procesar pipeline aquí — la invitación a Skool
+    // y demás pasos deben ejecutarse solo cuando recibamos el webhook
+    // `checkout.session.completed` de Stripe. Esto evita envíos previos
+    // antes de que el pago esté confirmado.
     res.json({ id: session.id });
   } catch (err) {
     console.error('Error creando sesión:', err);
