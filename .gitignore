@@ -1,4 +1,22 @@
-# Archivos de desarrollo local
-server-local.js
+node_modules/
 .env
-server.log
+.DS_Store
+/.vscode/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.idea/
+dist/
+build/
+.cache/
+coverage/
+*.log
+/.parcel-cache/
+/.nyc_output/
+/.sass-cache/
+*.local
+/.env.local
+/.env.*.local
+Thumbs.db
+desktop.ini
+/.history/
