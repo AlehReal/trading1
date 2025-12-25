@@ -1,0 +1,12 @@
+{
+  "name": "trading-opinions-server",
+  "version": "1.0.0",
+  "description": "Servidor ligero para almacenar opiniones en tiempo real (SSE)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

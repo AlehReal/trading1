@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Makers Trading Academy</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --blue-dark: #0a1122;
+            --blue-mid: #112340;
+            --blue-light: #1b355e;
+            --text-white: #ffffff;
+            --text-light: #b4c0db;
+            --button-blue: #1677ff;
+            --button-blue-hover: #0e57c5;
+            --card-bg: #0f1e36;
+            --card-border: #1b3358;
+            --font: 'Montserrat', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font);
+            background-color: var(--blue-dark);
+            color: var(--text-white);
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+        }
+
+        /* HERO SECTION */
+        #hero {
+            background: url('hero.png');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 20px 140px 20px;
+            text-align: center;
+        }
+
+        #hero .logo-img {
+            width: 200px;
+            margin-bottom: 40px;
+        }
+
+        #hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            max-width: 850px;
+            margin: 0 auto 25px;
+            line-height: 1.3;
+        }
+
+        #hero .highlight {
+            color: #4ea8ff;
+        }
+
+        #hero p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 35px;
+        }
+
+        #hero button {
+            background-color: var(--button-blue);
+            border: none;
+            padding: 15px 45px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-white);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #hero button:hover {
+            background-color: var(--button-blue-hover);
+        }
+
+        /* FEATURES */
+        #features {
+            margin-top: -90px;
+            padding: 40px 20px 80px 20px;
+        }
+
+        .features-wrapper {
+            background: var(--blue-mid);
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            gap: 30px;
+            justify-content: space-between;
+        }
+
+        .feature {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature img {
+            width: 60px;
+            margin-bottom: 20px;
+        }
+
+        .feature h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .feature p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* VIDEO / QUIENES SOMOS */
+        #about-video {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        #about-video h2 {
+            margin-bottom: 40px;
+            font-size: 1.6rem;
+        }
+
+        #about-video video, #about-video .video-embed iframe {
+            max-width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 0 30px rgba(78, 168, 255, 0.5);
+        }
+
+        /* YouTube placeholder / responsive embed */
+        .video-wrapper { max-width:1000px; margin:0 auto; position:relative; }
+        .video-thumb { cursor:pointer; border-radius:12px; overflow:hidden; background-size:cover; background-position:center; position:relative; padding-top:56.25%; }
+        .video-thumb .play-btn { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:84px; height:84px; border-radius:50%; background:linear-gradient(180deg, rgba(30,140,255,0.95), rgba(10,90,220,0.95)); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 30px rgba(10,100,255,0.18); }
+        .video-thumb .play-btn:after { content:'▶'; color:white; font-size:32px; margin-left:3px; }
+        .video-embed { width:100%; position:relative; padding-top:56.25%; }
+        .video-embed iframe { position:absolute; left:0; top:0; width:100%; height:100%; border:0; border-radius:12px; }
+
+        /* DISCLAIMER */
+        #disclaimer {
+            background: var(--blue-mid);
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        #disclaimer p {
+            max-width: 1000px;
+            margin: auto;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 17, 34, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--blue-mid);
+            padding: 40px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            color: #4ea8ff;
+        }
+
+        .modal p {
+            color: var(--text-light);
+            margin-bottom: 25px;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            background: var(--blue-dark);
+            color: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .modal input:focus {
+            outline: none;
+            border-color: #4ea8ff;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .modal-buttons .btn-primary {
+            background-color: var(--button-blue);
+            color: white;
+        }
+
+        .modal-buttons .btn-primary:hover {
+            background-color: var(--button-blue-hover);
+        }
+
+        .modal-buttons .btn-secondary {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--card-border);
+        }
+
+        .modal-buttons .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* RESPONSIVE */
+        @media(max-width: 900px) {
+            .features-wrapper {
+                flex-direction: column;
+            }
+        }
+
+        @media(max-width: 600px) {
+            #hero h1 {
+                font-size: 2rem;
+            }
+            
+            .modal-content {
+                padding: 30px 20px;
+            }
+            
+            .modal-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* CAROUSEL OPINIONS */
+        .opinions-carousel {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 14px;
+            padding: 26px 18px;
+            background: linear-gradient(180deg, rgba(17,35,64,0.6), rgba(11,22,40,0.6));
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+        }
+
+        .opinions-track {
+            display: block;
+            position: relative;
+            min-height: 170px;
+            will-change: opacity, transform;
+            gap: 18px;
+        }
+
+        .opinions-track > .opinion-slide { 
+            width:100%;
+            box-sizing:border-box;
+            display:flex;
+            justify-content:center;
+            align-items:stretch;
+            opacity:0;
+            transform: translateX(6%) scale(0.996);
+            transition: opacity 700ms cubic-bezier(.2,.8,.2,1), transform 700ms cubic-bezier(.2,.8,.2,1);
+        }
+        /* enter from right -> move to center */
+        .opinions-track > .opinion-slide.enter-right { transform: translateX(100%); }
+        .opinions-track > .opinion-slide.enter-right.visible { transform: translateX(0); opacity:1; }
+        /* enter from left */
+        .opinions-track > .opinion-slide.enter-left { transform: translateX(-100%); }
+        .opinions-track > .opinion-slide.enter-left.visible { transform: translateX(0); opacity:1; }
+        /* exit to left */
+        .opinions-track > .opinion-slide.exit-left { transform: translateX(-120%); opacity:0; transition-duration: 1400ms; }
+        /* exit to right */
+        .opinions-track > .opinion-slide.exit-right { transform: translateX(120%); opacity:0; transition-duration: 1400ms; }
+
+        .opinion-card {
+            width: 100%;
+            max-width: 840px;
+            padding: 22px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(15,30,54,0.48), rgba(7,18,38,0.42));
+            border: 1px solid rgba(75,120,200,0.08);
+            box-shadow: 0 8px 24px rgba(6,12,24,0.6);
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+        }
+
+        .opinion-card .opinion-top {
+            display:flex; align-items:center; gap:12px;
+        }
+
+        .opinion-avatar {
+            width:56px; height:56px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:1rem;
+            box-shadow: 0 6px 18px rgba(12,24,48,0.45);
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .opinion-name { color:#d7ecff; font-weight:700; font-size:1.05rem; }
+
+        .opinion-message { color:var(--text-light); font-size:1rem; line-height:1.6; }
+
+        /* quote mark */
+        .opinion-message:before {
+            content: '“';
+            font-size: 2.6rem;
+            color: rgba(78,168,255,0.12);
+            margin-right: 8px;
+            vertical-align: top;
+            display: inline-block;
+            line-height: 0.8;
+        }
+
+        /* rating badge */
+        .rating-badge {
+            position: absolute;
+            right: 18px;
+            top: 18px;
+            background: linear-gradient(90deg,#ffd166,#ff9f1c);
+            color: #07203a;
+            font-weight: 800;
+            padding: 8px 12px;
+            border-radius: 999px;
+            display:flex; align-items:center; gap:8px;
+            box-shadow: 0 8px 28px rgba(255,160,60,0.12);
+            font-size: 0.95rem;
+        }
+
+        .rating-badge .rb-stars { color: #07203a; font-weight:800; }
+
+        /* larger stars for rating area */
+        .opinion-card .stars .star { font-size:1.2rem; }
+
+        .opinion-meta { font-size:0.85rem; color: #9fb2d8; }
+
+        /* Stars */
+        .stars { display:flex; gap:6px; align-items:center }
+        .star { font-size:1.05rem; color:rgba(255,255,255,0.22); cursor:pointer; transition: color 160ms; }
+        .star.active { color: #ffd166; text-shadow: 0 6px 18px rgba(255,209,102,0.12); }
+
+        .carousel-controls {
+            position: absolute; left:12px; right:12px; top:50%; transform:translateY(-50%); display:flex; justify-content:space-between; pointer-events:none;
+        }
+
+        .carousel-controls button { pointer-events:all; background:rgba(0,0,0,0.35); border:0; color:white; padding:10px 12px; border-radius:10px; backdrop-filter: blur(4px); cursor:pointer; }
+
+        .carousel-dots { text-align:center; margin-top:14px; display:flex; gap:8px; justify-content:center; }
+        .carousel-dot { width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.12); display:inline-block; cursor:pointer; }
+        .carousel-dot.active { background:#4ea8ff; box-shadow:0 4px 10px rgba(78,168,255,0.18); }
+
+        @media(max-width:900px){ .opinion-card{ padding:18px } }
+        @media(max-width:600px){ .opinion-avatar{ width:48px;height:48px } }
+
+        /* TESTIMONIALS STYLE (premium glass) */
+        .testimonials-section { background: linear-gradient(180deg,#020417 0%, rgba(2,6,23,0.6) 100%); }
+        .testimonials-wrap { position:relative; }
+        .testimonials-track { display:flex; gap:20px; overflow:hidden; padding:18px; scroll-behavior:smooth; }
+        .testimonials-track::-webkit-scrollbar { height:8px; }
+        .testimonial-card {
+            flex: 0 0 calc((100% - 40px) / 3);
+            min-width: 300px; max-width: 380px;
+            background: rgba(10,20,36,0.45);
+            border: 1px solid rgba(78,168,255,0.12);
+            border-radius: 16px;
+            padding:18px 18px 20px 18px;
+            backdrop-filter: blur(8px) saturate(120%);
+            box-shadow: 0 8px 30px rgba(2,10,30,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+            position:relative;
+            overflow:hidden;
+        }
+        .testimonial-card:before { content:''; position:absolute; inset:0; pointer-events:none; box-shadow: 0 0 40px rgba(30,130,255,0.04) inset; border-radius:16px; }
+        .testimonial-top { display:flex; gap:12px; align-items:center; }
+        .testimonial-avatar { width:68px; height:68px; border-radius:50%; overflow:hidden; flex:0 0 68px; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; font-size:1rem; border:2px solid rgba(255,255,255,0.04); box-shadow:0 6px 20px rgba(6,20,48,0.6); }
+        .testimonial-name { color:#eaf4ff; font-weight:700; font-size:1rem; display:flex; align-items:center; gap:8px; }
+        .verified-badge { background:rgba(78,168,255,0.12); color:#4ea8ff; padding:4px 8px; border-radius:999px; font-size:0.75rem; font-weight:700; }
+        .testimonial-text { color:var(--text-light); font-weight:700; margin-top:12px; font-size:0.98rem; line-height:1.35; min-height:66px; }
+        .profit-pill { margin-top:14px; display:inline-flex; gap:10px; align-items:center; background:linear-gradient(90deg,#062b1f,#08342b); color:#9ff3b1; padding:10px 12px; border-radius:10px; font-weight:800; box-shadow:0 8px 18px rgba(16,100,60,0.08); }
+        .mini-stars { color:#ffd166; margin-left:6px; }
+        .test-nav { position:absolute; top:50%; transform:translateY(-50%); z-index:40; background:linear-gradient(180deg, rgba(6,12,30,0.6), rgba(6,12,30,0.3)); border:1px solid rgba(78,168,255,0.08); color:#dff1ff; width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+        .test-nav.left { left:-10px; }
+        .test-nav.right { right:-10px; }
+
+        @media(max-width:1100px){ .testimonial-card{ flex:0 0 calc((100% - 20px)/2); } }
+        @media(max-width:680px){ .testimonial-card{ flex:0 0 92%; } .test-nav.left{left:6px;} .test-nav.right{right:6px;} }
+
+        /* mini image on right of card */
+        .card-thumb {
+            position:absolute; right:14px; bottom:14px; width:140px; height:84px; border-radius:8px; overflow:hidden; border:1px solid rgba(255,255,255,0.03); box-shadow: 0 8px 22px rgba(0,0,0,0.5); background:#071427; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.06); font-size:0.85rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <section id="hero">
+        <img src="logo.png" class="logo-img">
+        <h1>
+            Learn the proven system that has helped
+            <span class="highlight">5,000+ traders</span> trade the right way
+        </h1>
+        <p>If you're ready to become a next level trader, apply now...</p>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features">
+        <div class="features-wrapper">
+            <div class="feature">
+                <img src="icon1.png">
+                <h3>More Freedom, Less Screen Time</h3>
+                <p>Less analyze for inner trading system, more freedom not on less screen time.</p>
+            </div>
+
+            <div class="feature">
+                <img src="icon2.png">
+                <h3>High-Probability Setups</h3>
+                <p>High probability setups with clear indication team.</p>
+            </div>
+
+            <div class="feature">
+                <img src="icon3.png">
+                <h3>Fits Any Schedule</h3>
+                <p>Fits any schedule and designed for both new and advanced traders.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUIENES SOMOS / VIDEO -->
+
+    <section id="about-video">
+        <h2>Who We Are</h2>
+        <div class="video-wrapper">
+            <!-- data-src can contain any YouTube watch URL or short URL; script will parse the id -->
+            <div id="video-placeholder" class="video-thumb" data-src="https://www.youtube.com/watch?v=7pmpQS6qCX4&feature=youtu.be" role="button" tabindex="0" aria-label="Reproducir video">
+                <div class="play-btn" aria-hidden="true"></div>
+            </div>
+            <div id="video-embed" class="video-embed" style="display:none"></div>
+        </div>
+    </section>
+    
+    <!-- TESTIMONIALS (Premium carousel) -->
+    <section id="opinions" class="testimonials-section" style="padding:60px 20px;">
+        <div class="testimonials-header" style="max-width:1200px;margin:0 auto 20px;text-align:center;">
+            <div class="five-stars" style="margin-bottom:12px;color:#ffd166;font-size:1.6rem;">★★★★★</div>
+            <h2 style="margin:0; font-size:2rem; color:#eaf4ff; font-weight:700;">What Our Members Are Saying</h2>
+        </div>
+
+        <div style="max-width:1200px; margin:12px auto 20px; text-align:center;">
+            <button id="open-opinion-modal" style="background-color:transparent; border:1px solid rgba(78,168,255,0.12); padding:10px 26px; font-size:0.95rem; font-weight:600; color:var(--text-light); border-radius:28px; cursor:pointer; backdrop-filter: blur(6px);">Add Your Review</button>
+        </div>
+
+        <div class="testimonials-wrap" style="max-width:1200px;margin:20px auto; position:relative;">
+            <button class="test-nav left" id="prev-slide" aria-label="Anterior">◀</button>
+            <div class="testimonials-track" id="testimonials-track" aria-live="polite">
+                <!-- cards rendered here -->
+            </div>
+            <button class="test-nav right" id="next-slide" aria-label="Siguiente">▶</button>
+        </div>
+
+        <div id="average-rating" style="max-width:1200px;margin:14px auto 0;text-align:center;color:var(--text-light);"></div>
+
+        <p id="opinions-empty" style="text-align:center; color:var(--text-light); margin-top:18px; display:none;">Todavía no hay opiniones. Sé el primero en dejar la tuya.</p>
+    </section>
+
+    <!-- Contact section: botón que redirige a WhatsApp -->
+    <section id="contact" style="padding:40px 20px; text-align:center;">
+        <a id="contact-btn" href="https://wa.me/5356391384" target="_blank" rel="noopener noreferrer">
+            <button style="background-color:var(--button-blue); border:none; padding:15px 45px; font-size:1.1rem; font-weight:600; color:var(--text-white); border-radius:10px; cursor:pointer;">Contáctanos</button>
+        </a>
+        <p style="color:var(--text-light); margin-top:12px;">Haz clic en el botón para abrir WhatsApp con el número <strong>5356391384</strong>.</p>
+    </section>
+
+
+    <!-- DISCLAIMER -->
+    <section id="disclaimer">
+        <p>
+            Standard trading risk warnings, high risk of loss or patrons and unavoidable dangers.
+            Past performance not guarantees future results...
+            (Texto replicado tal cual la imagen).
+        </p>
+    </section>
+
+    <footer>
+        Created by Blue Makers Trading Academy · 2025
+    </footer>
+
+    
+
+    <!-- MODAL for adding opinion -->
+    <div class="modal" id="opinion-modal">
+            <div class="modal-content">
+                <h2>Añadir opinión</h2>
+                <p>Comparte tu experiencia con nosotros.</p>
+                <input id="opinion-name" placeholder="Tu nombre (opcional)" />
+                <input id="opinion-message" placeholder="Tu opinión" />
+
+                <div style="text-align:left; margin-bottom:12px;">
+                    <label style="display:block; color:var(--text-light); margin-bottom:6px;">Calificación</label>
+                    <div id="rating-select" class="stars" aria-label="Selecciona calificación">
+                        <span class="star" data-value="1">☆</span>
+                        <span class="star" data-value="2">☆</span>
+                        <span class="star" data-value="3">☆</span>
+                        <span class="star" data-value="4">☆</span>
+                        <span class="star" data-value="5">☆</span>
+                    </div>
+                </div>
+
+                <div class="modal-buttons">
+                    <button class="btn-primary" id="save-opinion">Enviar</button>
+                    <button class="btn-secondary" id="close-opinion">Cancelar</button>
+                </div>
+            </div>
+    </div>
+
+    <script>
+        // Helper to create opinion card (styled for carousel)
+        function colorFromString(s) {
+            if (!s) s = String(Math.random());
+            // simple hash to H value
+            let h = 0;
+            for (let i = 0; i < s.length; i++) h = (h << 5) - h + s.charCodeAt(i) | 0;
+            h = Math.abs(h) % 360;
+            return `linear-gradient(135deg, hsl(${h} 80% 45%), hsl(${(h+40)%360} 85% 55%))`;
+        }
+
+        function createOpinionCard(op) {
+            const slide = document.createElement('div');
+            slide.className = 'opinion-slide';
+            if (op && op.id) slide.dataset.id = op.id;
+
+            const card = document.createElement('div');
+            card.className = 'opinion-card';
+
+            // rating badge (top-right) - show even if rating is 0
+            if (typeof op.rating !== 'undefined' && op.rating !== null) {
+                const badge = document.createElement('div');
+                badge.className = 'rating-badge';
+                const starSmall = document.createElement('span');
+                starSmall.className = 'rb-stars';
+                starSmall.textContent = '★';
+                const num = document.createElement('span');
+                num.textContent = `${op.rating}`;
+                badge.appendChild(starSmall);
+                badge.appendChild(num);
+                card.appendChild(badge);
+            }
+
+            const top = document.createElement('div');
+            top.className = 'opinion-top';
+
+            const avatar = document.createElement('div');
+            avatar.className = 'opinion-avatar';
+            // initials
+            const initials = (op.name || 'Anon').split(' ').map(s=>s[0]).join('').slice(0,2).toUpperCase();
+            avatar.textContent = initials;
+            avatar.style.background = colorFromString(op.name || op.message || String(op.id));
+
+            const titleWrap = document.createElement('div');
+            const nameEl = document.createElement('div');
+            nameEl.className = 'opinion-name';
+            nameEl.textContent = op.name || 'Anon';
+
+            const meta = document.createElement('div');
+            meta.className = 'opinion-meta';
+            meta.textContent = new Date(op.date).toLocaleString();
+
+            titleWrap.appendChild(nameEl);
+            titleWrap.appendChild(meta);
+
+            top.appendChild(avatar);
+            top.appendChild(titleWrap);
+
+            const msg = document.createElement('div');
+            msg.className = 'opinion-message';
+            msg.textContent = op.message;
+
+            // rating display (large stars and numeric label)
+            const ratingWrap = document.createElement('div');
+            ratingWrap.style.display = 'flex';
+            ratingWrap.style.alignItems = 'center';
+            ratingWrap.style.gap = '12px';
+
+            const ratingDiv = document.createElement('div');
+            ratingDiv.className = 'stars';
+            for (let i=1;i<=5;i++){
+                const sp = document.createElement('span');
+                sp.className = 'star' + (op.rating && i<=op.rating? ' active':'');
+                sp.textContent = i<= (op.rating||0)? '★':'☆';
+                // make stars clickable to rate this opinion
+                sp.style.cursor = 'pointer';
+                sp.dataset.value = i;
+                sp.addEventListener('click', async (ev) => {
+                    ev.stopPropagation();
+                    // send rating to server
+                    try {
+                        const res = await fetch(`/opinions/${op.id}/rate`, {
+                            method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({rating: i})
+                        });
+                        if (!res.ok) throw new Error('rate failed');
+                        const updated = await res.json();
+                        // update local list and UI
+                        const idx = opinionsList.findIndex(x=>String(x.id)===String(updated.id));
+                        if (idx!== -1) opinionsList[idx] = updated;
+                        renderOpinions(opinionsList);
+                        // scroll to updated card (after render)
+                        setTimeout(()=>{
+                            const track = document.getElementById('testimonials-track');
+                            if (!track) return;
+                            const cards = Array.from(track.querySelectorAll('.testimonial-card'));
+                            const cardEl = cards.find(c=> c.dataset && String(c.dataset.id) === String(updated.id));
+                            // fallback: match by index
+                            if (!cardEl && idx>=0 && idx < cards.length) {
+                                const c = cards[idx];
+                                track.scrollTo({ left: c.offsetLeft - track.offsetLeft - 12, behavior: 'smooth' });
+                                return;
+                            }
+                            if (cardEl) track.scrollTo({ left: cardEl.offsetLeft - track.offsetLeft - 12, behavior: 'smooth' });
+                        }, 80);
+                    } catch (err) {
+                        console.error('Error rating', err);
+                    }
+                });
+                ratingDiv.appendChild(sp);
+            }
+
+            const ratingNum = document.createElement('div');
+            ratingNum.style.color = '#d7ecff';
+            ratingNum.style.fontWeight = '700';
+            ratingNum.style.fontSize = '0.95rem';
+            ratingNum.textContent = `${op.rating?op.rating:'/'} /5`;
+
+            ratingWrap.appendChild(ratingDiv);
+            ratingWrap.appendChild(ratingNum);
+            card.appendChild(ratingWrap);
+
+            card.appendChild(top);
+            card.appendChild(msg);
+
+            // mini thumbnail (placeholder) - could be replaced by real media
+            const thumb = document.createElement('div');
+            thumb.className = 'card-thumb';
+            thumb.textContent = 'Imagen';
+            card.appendChild(thumb);
+
+            slide.appendChild(card);
+            return slide;
+        }
+
+        let opinionsList = [];
+        let currentIndex = 0;
+        let autoplayTimer = null;
+        let resumeTimer = null;
+        const autoplayInterval = 3000;
+
+        async function loadOpinions() {
+            try {
+                const res = await fetch('/opinions');
+                opinionsList = await res.json();
+                renderOpinions(opinionsList);
+                // ensure track is at start
+                const t = document.getElementById('testimonials-track');
+                if (t) t.scrollLeft = 0;
+            } catch (e) {
+                console.error('Error cargando opiniones', e);
+            }
+        }
+
+        function renderOpinions(list) {
+            // render premium testimonials carousel (horizontal)
+            const track = document.getElementById('testimonials-track');
+            const empty = document.getElementById('opinions-empty');
+            const avgWrap = document.getElementById('average-rating');
+            track.innerHTML = '';
+            if (!list || list.length === 0) {
+                empty.style.display = 'block';
+                avgWrap.innerHTML = '';
+                return;
+            }
+            empty.style.display = 'none';
+
+            list.forEach(op => {
+                const card = document.createElement('div');
+                card.className = 'testimonial-card';
+                if (op && op.id) card.dataset.id = op.id;
+
+                const top = document.createElement('div');
+                top.className = 'testimonial-top';
+
+                const av = document.createElement('div');
+                av.className = 'testimonial-avatar';
+                const initials = (op.name||'Anon').split(' ').map(s=>s[0]).join('').slice(0,2).toUpperCase();
+                av.textContent = initials;
+                av.style.background = colorFromString(op.name||op.message||String(op.id));
+
+                const nameWrap = document.createElement('div');
+                const name = document.createElement('div');
+                name.className = 'testimonial-name';
+                name.textContent = op.name || 'Anon';
+                const verified = document.createElement('span');
+                verified.className = 'verified-badge';
+                verified.textContent = 'Verified Trader';
+                name.appendChild(verified);
+
+                const text = document.createElement('div');
+                text.className = 'testimonial-text';
+                text.textContent = op.message || '';
+
+                nameWrap.appendChild(name);
+
+                top.appendChild(av);
+                top.appendChild(nameWrap);
+
+                // stars + rating
+                const smallStars = document.createElement('div');
+                smallStars.className = 'mini-stars';
+                for (let i=1;i<=5;i++){
+                    const s = document.createElement('span');
+                    s.textContent = (op.rating && i<=op.rating)? '★':'☆';
+                    s.style.cursor = 'pointer';
+                    s.dataset.value = i;
+                    s.addEventListener('click', async (ev) => {
+                        ev.stopPropagation();
+                        try {
+                            const res = await fetch(`/opinions/${op.id}/rate`, {
+                                method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({rating: i})
+                            });
+                            if (!res.ok) throw new Error('rate failed');
+                            const updated = await res.json();
+                            const idx = opinionsList.findIndex(x=>String(x.id)===String(updated.id));
+                            if (idx!== -1) opinionsList[idx] = updated;
+                            renderOpinions(opinionsList);
+                            // scroll to updated card
+                            setTimeout(()=>{
+                                const track = document.getElementById('testimonials-track');
+                                if (!track) return;
+                                const cards = Array.from(track.querySelectorAll('.testimonial-card'));
+                                const cardEl = cards.find(c=> c.dataset && String(c.dataset.id) === String(updated.id));
+                                if (!cardEl && idx>=0 && idx < cards.length) {
+                                    const c = cards[idx];
+                                    track.scrollTo({ left: c.offsetLeft - track.offsetLeft - 12, behavior: 'smooth' });
+                                    return;
+                                }
+                                if (cardEl) track.scrollTo({ left: cardEl.offsetLeft - track.offsetLeft - 12, behavior: 'smooth' });
+                            }, 80);
+                        } catch (err) {
+                            console.error('Error rating', err);
+                        }
+                    });
+                    smallStars.appendChild(s);
+                }
+
+                // profit metric (if present in message try to extract $ or %)
+                const profit = document.createElement('div');
+                profit.className = 'profit-pill';
+                const profitText = (op.profit) ? op.profit : (()=>{
+                    // try to find $ or % in message
+                    const m = String(op.message||'');
+                    const dollar = m.match(/\+?\$[0-9\,\.]+/);
+                    const perc = m.match(/\+?[0-9]{1,3}%/);
+                    return (dollar && dollar[0]) ? dollar[0] : (perc && perc[0]) ? perc[0] : '';
+                })();
+                if (profitText) profit.textContent = profitText; else profit.style.display = 'none';
+
+                card.appendChild(top);
+                card.appendChild(smallStars);
+                card.appendChild(text);
+                card.appendChild(profit);
+
+                track.appendChild(card);
+            });
+
+            updateAverageRating();
+        }
+
+        function updateAverageRating() {
+            const wrap = document.getElementById('average-rating');
+            if (!opinionsList || opinionsList.length === 0) {
+                wrap.innerHTML = '';
+                return;
+            }
+            const ratings = opinionsList.map(o => (typeof o.rating === 'number' && !isNaN(o.rating)) ? o.rating : null).filter(Boolean);
+            const avg = ratings.length ? (ratings.reduce((a,b)=>a+b,0)/ratings.length) : null;
+            const count = opinionsList.length;
+            wrap.innerHTML = '';
+            if (avg !== null) {
+                const starsDiv = document.createElement('div');
+                starsDiv.style.display = 'flex';
+                starsDiv.style.gap = '6px';
+                const full = Math.round(avg);
+                for (let i=1;i<=5;i++){
+                    const sp = document.createElement('span');
+                    sp.className = 'star' + (i<=full? ' active':'');
+                    sp.textContent = i<=full? '★':'☆';
+                    starsDiv.appendChild(sp);
+                }
+                const num = document.createElement('div');
+                num.style.color = '#d7ecff';
+                num.style.fontWeight = '700';
+                num.textContent = `${avg.toFixed(1)}/5 · ${count} opiniones`;
+                wrap.appendChild(starsDiv);
+                wrap.appendChild(num);
+            } else {
+                wrap.textContent = `${count} opiniones`;
+            }
+        }
+
+        function updateDots() {
+            const dots = document.querySelectorAll('.carousel-dot');
+            dots.forEach((d,i)=> d.classList.toggle('active', i===currentIndex));
+        }
+
+        function showSlide(index) {
+            if (!opinionsList || opinionsList.length === 0) return;
+            if (index < 0) index = opinionsList.length - 1;
+            if (index >= opinionsList.length) index = 0;
+            const track = document.getElementById('opinions-track');
+            const oldSlide = track.querySelector('.opinion-slide');
+            const newSlide = createOpinionCard(opinionsList[index]);
+
+            // determine direction for animation
+            let direction = 'right';
+            if (oldSlide) {
+                const oldIndex = currentIndex;
+                // decide direction: if moving forward in list it's right->left animation
+                if ((index > oldIndex) || (index === 0 && oldIndex === opinionsList.length - 1)) direction = 'right';
+                else direction = 'left';
+            }
+
+            // prepare new slide with enter class
+            newSlide.classList.add(direction === 'right' ? 'enter-right' : 'enter-left');
+            track.appendChild(newSlide);
+
+            // trigger animation
+            requestAnimationFrame(() => {
+                newSlide.classList.add('visible');
+                if (oldSlide) {
+                    oldSlide.classList.add(direction === 'right' ? 'exit-left' : 'exit-right');
+                }
+            });
+
+            // cleanup old slide after transition
+            setTimeout(() => {
+                const children = Array.from(track.children);
+                children.forEach(ch => {
+                    if (ch !== newSlide) track.removeChild(ch);
+                });
+                // ensure newSlide is normalized (no enter* classes left)
+                newSlide.classList.remove('enter-right', 'enter-left');
+                newSlide.classList.add('visible');
+            }, 1550);
+
+            currentIndex = index;
+            updateDots();
+            updateAverageRating();
+        }
+
+        function nextSlide() { showSlide(currentIndex + 1); }
+        function prevSlide() { showSlide(currentIndex - 1); }
+
+        function startAutoplay() {
+            if (autoplayTimer) return;
+            const track = document.getElementById('testimonials-track');
+            if (!track || !opinionsList || opinionsList.length <= 1) return;
+            autoplayTimer = setInterval(() => {
+                const card = track.querySelector('.testimonial-card');
+                const gap = 20;
+                const w = card ? card.getBoundingClientRect().width + gap : 340;
+                track.scrollBy({ left: w, behavior: 'smooth' });
+            }, autoplayInterval);
+        }
+        function stopAutoplay() { if (autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer = null; } }
+
+        function pauseAndResume() {
+            stopAutoplay();
+            if (resumeTimer) clearTimeout(resumeTimer);
+            resumeTimer = setTimeout(() => { startAutoplay(); }, autoplayInterval + 500);
+        }
+
+        // Modal behaviour (robust)
+        const modal = document.getElementById('opinion-modal');
+        const modalContent = modal ? modal.querySelector('.modal-content') : null;
+        // attach open listeners to any buttons with id 'open-opinion-modal' (defensive)
+        const openBtns = Array.from(document.querySelectorAll('#open-opinion-modal'));
+        openBtns.forEach(btn => btn.addEventListener('click', (e) => {
+            if (!modal) return console.warn('Modal element not found');
+            modal.style.display = 'flex';
+            // lock scroll
+            document.body.style.overflow = 'hidden';
+            // autofocus textarea/input
+            const msg = modal.querySelector('#opinion-message'); if (msg) msg.focus();
+        }));
+
+        // delegation fallback: catch clicks on dynamically added/open buttons
+        document.body.addEventListener('click', (e) => {
+            const btn = e.target.closest && e.target.closest('#open-opinion-modal');
+            if (btn) {
+                if (!modal) return console.warn('Modal element not found (delegation)');
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                const msg = modal.querySelector('#opinion-message'); if (msg) msg.focus();
+            }
+        });
+
+        // close button
+        const closeBtn = document.getElementById('close-opinion');
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+        // close on click outside modal-content
+        if (modal) {
+            modal.addEventListener('click', (ev) => {
+                if (modalContent && !modalContent.contains(ev.target)) closeModal();
+            });
+        }
+
+        // close on Escape
+        document.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Escape') closeModal();
+        });
+
+        function closeModal() {
+            if (!modal) return;
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        // rating selector
+        let selectedRating = null;
+        const stars = Array.from(document.querySelectorAll('#rating-select .star'));
+        stars.forEach(s => {
+            s.addEventListener('click', () => {
+                const val = Number(s.dataset.value) || 0;
+                selectedRating = val;
+                stars.forEach(st => st.classList.toggle('active', Number(st.dataset.value) <= val));
+            });
+            s.addEventListener('mouseover', () => {
+                const val = Number(s.dataset.value) || 0;
+                stars.forEach(st => st.classList.toggle('active', Number(st.dataset.value) <= val));
+            });
+            s.addEventListener('mouseout', () => {
+                stars.forEach(st => st.classList.toggle('active', selectedRating && Number(st.dataset.value) <= selectedRating));
+            });
+        });
+
+        document.getElementById('save-opinion').addEventListener('click', async () => {
+            const name = document.getElementById('opinion-name').value;
+            const message = document.getElementById('opinion-message').value;
+            if (!message || !message.trim()) {
+                alert('Escribe un mensaje antes de enviar.');
+                return;
+            }
+
+            try {
+                const res = await fetch('/opinions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, message, rating: selectedRating })
+                });
+                if (!res.ok) throw new Error('Error en el servidor');
+                const saved = await res.json();
+                // No insertamos localmente para evitar duplicados: la inserción
+                // la manejará la conexión SSE. Si el navegador no soporta SSE,
+                // insertamos localmente como fallback.
+                // If server sent the opinion, ensure local list updates and UI shows it.
+                opinionsList.unshift(saved);
+                renderOpinions(opinionsList);
+                const t = document.getElementById('testimonials-track'); if (t) t.scrollTo({left:0, behavior:'smooth'});
+                // reset form and rating UI
+                selectedRating = null;
+                stars.forEach(st => st.classList.remove('active'));
+                document.getElementById('opinion-name').value = '';
+                document.getElementById('opinion-message').value = '';
+                // close modal via helper to restore body scroll
+                try { closeModal(); } catch (err) { modal.style.display = 'none'; document.body.style.overflow = ''; }
+            } catch (e) {
+                alert('No se pudo enviar la opinión. Intenta de nuevo.');
+                console.error(e);
+            }
+        });
+
+        // SSE for realtime updates
+        function startSSE() {
+            if (!('EventSource' in window)) return;
+            const es = new EventSource('/stream');
+            es.onmessage = (e) => {
+                try {
+                    const op = JSON.parse(e.data);
+                    // prepend only if no duplicate by id; update internal list and re-render
+                    const exists = opinionsList.some(item => String(item.id) === String(op.id));
+                    if (!exists) {
+                        opinionsList.unshift(op);
+                        renderOpinions(opinionsList);
+                        const t = document.getElementById('testimonials-track'); if (t) t.scrollTo({left:0, behavior:'smooth'});
+                    }
+                } catch (err) {
+                    // ignore non-json ping messages
+                }
+            };
+            es.onerror = () => {
+                console.error('SSE connection error');
+                es.close();
+                // retry after a bit
+                setTimeout(startSSE, 3000);
+            };
+        }
+
+        // navigation controls for horizontal track
+        const trackEl = document.getElementById('testimonials-track');
+        document.getElementById('next-slide').addEventListener('click', () => {
+            if (!trackEl) return;
+            const card = trackEl.querySelector('.testimonial-card');
+            const gap = 20;
+            const w = card ? card.getBoundingClientRect().width + gap : 340;
+            trackEl.scrollBy({ left: w, behavior: 'smooth' });
+        });
+        document.getElementById('prev-slide').addEventListener('click', () => {
+            if (!trackEl) return;
+            const card = trackEl.querySelector('.testimonial-card');
+            const gap = 20;
+            const w = card ? card.getBoundingClientRect().width + gap : 340;
+            trackEl.scrollBy({ left: -w, behavior: 'smooth' });
+        });
+
+        // inicio
+        loadOpinions();
+        startSSE();
+        // autoplay for horizontal track: start after initial load
+        setTimeout(() => { startAutoplay(); }, 1200);
+
+        // pause on hover over testimonials track
+        const carouselEl = document.querySelector('.testimonials-wrap');
+        if (carouselEl) {
+            carouselEl.addEventListener('mouseenter', () => { stopAutoplay(); });
+            carouselEl.addEventListener('mouseleave', () => { startAutoplay(); });
+        }
+
+        // YouTube embed lazy loader: parses data-src and replaces placeholder with iframe on click
+        function extractYouTubeId(url) {
+            if (!url) return null;
+            try {
+                // normalized url
+                url = url.trim();
+                // handle youtu.be short links
+                const short = url.match(/youtu\.be\/([\w-]{6,})/i);
+                if (short) return short[1];
+                // handle watch?v= and v/ and embed/
+                const m = url.match(/[?&]v=([\w-_-]{6,})/) || url.match(/\/embed\/([\w-_-]{6,})/) || url.match(/\/v\/([\w-_-]{6,})/);
+                if (m) return m[1];
+                // fallback: last path segment
+                const p = url.split('/').filter(Boolean).pop();
+                if (p && p.length >= 6) return p;
+            } catch (e) { }
+            return null;
+        }
+
+        function initYouTubePlaceholder() {
+            const ph = document.getElementById('video-placeholder');
+            const embedWrap = document.getElementById('video-embed');
+            if (!ph || !embedWrap) return;
+            const dataSrc = ph.dataset && ph.dataset.src ? ph.dataset.src : ph.getAttribute('data-src');
+            const vid = extractYouTubeId(dataSrc);
+            if (!vid) {
+                // fallback: replace placeholder with link
+                const a = document.createElement('a'); a.href = dataSrc || '#'; a.textContent = dataSrc || 'Ver video'; a.target = '_blank'; ph.innerHTML = ''; ph.appendChild(a); return;
+            }
+            // set thumbnail background
+            const thumb = `https://img.youtube.com/vi/${vid}/hqdefault.jpg`;
+            ph.style.backgroundImage = `url('${thumb}')`;
+
+            function loadIframe() {
+                if (embedWrap.innerHTML.trim()) return; // already loaded
+                const iframe = document.createElement('iframe');
+                iframe.src = `https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1&autoplay=1`;
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                iframe.setAttribute('allowfullscreen', '');
+                embedWrap.innerHTML = '';
+                embedWrap.style.display = 'block';
+                embedWrap.appendChild(iframe);
+                // hide placeholder
+                ph.style.display = 'none';
+            }
+
+            ph.addEventListener('click', loadIframe);
+            ph.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); loadIframe(); } });
+        }
+
+        // initialize youtube placeholder after DOM ready (we're at end of body so safe)
+        try { initYouTubePlaceholder(); } catch (err) { console.error('YouTube init error', err); }
+    </script>
+</body>
+
+</html>
