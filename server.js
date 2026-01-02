@@ -31,6 +31,35 @@ function writeOpinions(list) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(list, null, 2), 'utf8');
 }
 
+// MEDIA storage
+const MEDIA_FILE = path.join(__dirname, 'media.json');
+const UPLOAD_DIR = path.join(__dirname, 'uploads');
+if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+
+function readMedia() {
+  try { const raw = fs.readFileSync(MEDIA_FILE, 'utf8'); return JSON.parse(raw || '[]'); } catch (e) { return []; }
+}
+
+function writeMedia(list) {
+  fs.writeFileSync(MEDIA_FILE, JSON.stringify(list, null, 2), 'utf8');
+}
+
+const multer = require('multer');
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => cb(null, UPLOAD_DIR),
+    filename: (req, file, cb) => {
+      const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
+      const ext = path.extname(file.originalname) || '';
+      cb(null, unique + ext);
+    }
+  }),
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
+});
+
+// expose uploads directory (files accessible at /uploads/*)
+app.use('/uploads', express.static(UPLOAD_DIR));
+
 // Endpoint to get all opinions
 app.get('/opinions', (req, res) => {
   const list = readOpinions();
@@ -91,6 +120,97 @@ app.post('/opinions/:id/rate', (req, res) => {
   sendEventToAll(list[idx]);
 
   res.json(list[idx]);
+});
+
+// Endpoint to update an existing opinion (edit)
+app.put('/opinions/:id', (req, res) => {
+  const id = Number(req.params.id);
+  if (Number.isNaN(id)) return res.status(400).json({ error: 'Invalid id' });
+
+  const { name, message, rating } = req.body || {};
+  const list = readOpinions();
+  const idx = list.findIndex(o => Number(o.id) === id);
+  if (idx === -1) return res.status(404).json({ error: 'Opinion not found' });
+
+  if (typeof name !== 'undefined') list[idx].name = String(name).trim() || list[idx].name;
+  if (typeof message !== 'undefined') {
+    if (!message || !String(message).trim()) return res.status(400).json({ error: 'El mensaje es requerido' });
+    list[idx].message = String(message).trim();
+  }
+  if (typeof rating !== 'undefined') {
+    const r = Number(rating);
+    list[idx].rating = (!Number.isNaN(r) && r >= 0 && r <= 5) ? Math.round(r) : null;
+  }
+  // update timestamp
+  list[idx].date = new Date().toISOString();
+
+  writeOpinions(list);
+  // notify SSE clients about update
+  sendEventToAll(list[idx]);
+  res.json(list[idx]);
+});
+
+// Endpoint to delete an opinion
+app.delete('/opinions/:id', (req, res) => {
+  const id = Number(req.params.id);
+  if (Number.isNaN(id)) return res.status(400).json({ error: 'Invalid id' });
+
+  const list = readOpinions();
+  const idx = list.findIndex(o => Number(o.id) === id);
+  if (idx === -1) return res.status(404).json({ error: 'Opinion not found' });
+
+  list.splice(idx, 1);
+  writeOpinions(list);
+  res.json({ ok: true, id });
+});
+
+// List media items
+app.get('/media', (req, res) => {
+  const list = readMedia();
+  res.json(list);
+});
+
+// Upload a media file (image or short video)
+app.post('/media', upload.single('file'), (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+  const { originalname, filename, mimetype, size } = req.file;
+  const item = {
+    id: Date.now(),
+    originalname,
+    filename,
+    url: `/uploads/${filename}`,
+    mimetype,
+    size,
+    date: new Date().toISOString()
+  };
+  const list = readMedia();
+  list.unshift(item);
+  writeMedia(list);
+  res.status(201).json(item);
+});
+
+// Delete a media item and remove file
+app.delete('/media/:id', (req, res) => {
+  const id = Number(req.params.id);
+  if (Number.isNaN(id)) return res.status(400).json({ error: 'Invalid id' });
+
+  const list = readMedia();
+  const idx = list.findIndex(m => Number(m.id) === id);
+  if (idx === -1) return res.status(404).json({ error: 'Media not found' });
+
+  const item = list[idx];
+  // remove file
+  try {
+    const filePath = path.join(UPLOAD_DIR, item.filename);
+    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+  } catch (e) {
+    console.error('Error deleting file', e);
+    // continue to remove metadata
+  }
+
+  list.splice(idx, 1);
+  writeMedia(list);
+  res.json({ ok: true, id });
 });
 
 // SSE endpoint for real-time updates

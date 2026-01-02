@@ -42,25 +42,31 @@
             background: url('hero.png');
             background-size: cover;
             background-position: center;
+            position: relative;
             padding: 80px 20px 140px 20px;
             text-align: center;
         }
 
         #hero .logo-img {
             width: 200px;
-            margin-bottom: 40px;
+            margin-bottom: 0;
+            position: absolute;
+            left: 20px;
+            top: 20px;
         }
 
         #hero h1 {
             font-size: 2.8rem;
             font-weight: 800;
             max-width: 850px;
-            margin: 0 auto 25px;
+            /* empuja el título hacia abajo para que no quede al mismo nivel que el logo */
+            margin: 60px auto 25px;
             line-height: 1.3;
         }
 
         #hero .highlight {
-            color: #4ea8ff;
+            color: #f6f9fa;
+            text-shadow: 0 0 6px rgba(79, 209, 255, 0.5);
         }
 
         #hero p {
@@ -134,19 +140,67 @@
             font-size: 1.6rem;
         }
 
-        #about-video video, #about-video .video-embed iframe {
+        #about-video video,
+        #about-video .video-embed iframe {
             max-width: 100%;
             border-radius: 16px;
             box-shadow: 0 0 30px rgba(78, 168, 255, 0.5);
         }
 
         /* YouTube placeholder / responsive embed */
-        .video-wrapper { max-width:1000px; margin:0 auto; position:relative; }
-        .video-thumb { cursor:pointer; border-radius:12px; overflow:hidden; background-size:cover; background-position:center; position:relative; padding-top:56.25%; }
-        .video-thumb .play-btn { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:84px; height:84px; border-radius:50%; background:linear-gradient(180deg, rgba(30,140,255,0.95), rgba(10,90,220,0.95)); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 30px rgba(10,100,255,0.18); }
-        .video-thumb .play-btn:after { content:'▶'; color:white; font-size:32px; margin-left:3px; }
-        .video-embed { width:100%; position:relative; padding-top:56.25%; }
-        .video-embed iframe { position:absolute; left:0; top:0; width:100%; height:100%; border:0; border-radius:12px; }
+        .video-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .video-thumb {
+            cursor: pointer;
+            border-radius: 12px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            padding-top: 56.25%;
+        }
+
+        .video-thumb .play-btn {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, rgba(30, 140, 255, 0.95), rgba(10, 90, 220, 0.95));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 30px rgba(10, 100, 255, 0.18);
+        }
+
+        .video-thumb .play-btn:after {
+            content: '▶';
+            color: white;
+            font-size: 32px;
+            margin-left: 3px;
+        }
+
+        .video-embed {
+            width: 100%;
+            position: relative;
+            padding-top: 56.25%;
+        }
+
+        .video-embed iframe {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            border-radius: 12px;
+        }
 
         /* DISCLAIMER */
         #disclaimer {
@@ -267,12 +321,13 @@
         @media(max-width: 600px) {
             #hero h1 {
                 font-size: 2rem;
+                margin-top: 80px;
             }
-            
+
             .modal-content {
                 padding: 30px 20px;
             }
-            
+
             .modal-buttons {
                 flex-direction: column;
             }
@@ -286,8 +341,8 @@
             overflow: hidden;
             border-radius: 14px;
             padding: 26px 18px;
-            background: linear-gradient(180deg, rgba(17,35,64,0.6), rgba(11,22,40,0.6));
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+            background: linear-gradient(180deg, rgba(17, 35, 64, 0.6), rgba(11, 22, 40, 0.6));
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.02);
         }
 
         .opinions-track {
@@ -298,35 +353,59 @@
             gap: 18px;
         }
 
-        .opinions-track > .opinion-slide { 
-            width:100%;
-            box-sizing:border-box;
-            display:flex;
-            justify-content:center;
-            align-items:stretch;
-            opacity:0;
+        .opinions-track>.opinion-slide {
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            opacity: 0;
             transform: translateX(6%) scale(0.996);
-            transition: opacity 700ms cubic-bezier(.2,.8,.2,1), transform 700ms cubic-bezier(.2,.8,.2,1);
+            transition: opacity 700ms cubic-bezier(.2, .8, .2, 1), transform 700ms cubic-bezier(.2, .8, .2, 1);
         }
+
         /* enter from right -> move to center */
-        .opinions-track > .opinion-slide.enter-right { transform: translateX(100%); }
-        .opinions-track > .opinion-slide.enter-right.visible { transform: translateX(0); opacity:1; }
+        .opinions-track>.opinion-slide.enter-right {
+            transform: translateX(100%);
+        }
+
+        .opinions-track>.opinion-slide.enter-right.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
         /* enter from left */
-        .opinions-track > .opinion-slide.enter-left { transform: translateX(-100%); }
-        .opinions-track > .opinion-slide.enter-left.visible { transform: translateX(0); opacity:1; }
+        .opinions-track>.opinion-slide.enter-left {
+            transform: translateX(-100%);
+        }
+
+        .opinions-track>.opinion-slide.enter-left.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
         /* exit to left */
-        .opinions-track > .opinion-slide.exit-left { transform: translateX(-120%); opacity:0; transition-duration: 1400ms; }
+        .opinions-track>.opinion-slide.exit-left {
+            transform: translateX(-120%);
+            opacity: 0;
+            transition-duration: 1400ms;
+        }
+
         /* exit to right */
-        .opinions-track > .opinion-slide.exit-right { transform: translateX(120%); opacity:0; transition-duration: 1400ms; }
+        .opinions-track>.opinion-slide.exit-right {
+            transform: translateX(120%);
+            opacity: 0;
+            transition-duration: 1400ms;
+        }
 
         .opinion-card {
             width: 100%;
             max-width: 840px;
             padding: 22px;
             border-radius: 12px;
-            background: linear-gradient(180deg, rgba(15,30,54,0.48), rgba(7,18,38,0.42));
-            border: 1px solid rgba(75,120,200,0.08);
-            box-shadow: 0 8px 24px rgba(6,12,24,0.6);
+            background: linear-gradient(180deg, rgba(15, 30, 54, 0.48), rgba(7, 18, 38, 0.42));
+            border: 1px solid rgba(75, 120, 200, 0.08);
+            box-shadow: 0 8px 24px rgba(6, 12, 24, 0.6);
             color: var(--text-light);
             display: flex;
             flex-direction: column;
@@ -335,24 +414,42 @@
         }
 
         .opinion-card .opinion-top {
-            display:flex; align-items:center; gap:12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .opinion-avatar {
-            width:56px; height:56px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:1rem;
-            box-shadow: 0 6px 18px rgba(12,24,48,0.45);
-            border: 1px solid rgba(255,255,255,0.04);
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 6px 18px rgba(12, 24, 48, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
 
-        .opinion-name { color:#d7ecff; font-weight:700; font-size:1.05rem; }
+        .opinion-name {
+            color: #d7ecff;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
 
-        .opinion-message { color:var(--text-light); font-size:1rem; line-height:1.6; }
+        .opinion-message {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
 
         /* quote mark */
         .opinion-message:before {
             content: '“';
             font-size: 2.6rem;
-            color: rgba(78,168,255,0.12);
+            color: rgba(78, 168, 255, 0.12);
             margin-right: 8px;
             vertical-align: top;
             display: inline-block;
@@ -364,76 +461,374 @@
             position: absolute;
             right: 18px;
             top: 18px;
-            background: linear-gradient(90deg,#ffd166,#ff9f1c);
+            background: linear-gradient(90deg, #ffd166, #ff9f1c);
             color: #07203a;
             font-weight: 800;
             padding: 8px 12px;
             border-radius: 999px;
-            display:flex; align-items:center; gap:8px;
-            box-shadow: 0 8px 28px rgba(255,160,60,0.12);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 28px rgba(255, 160, 60, 0.12);
             font-size: 0.95rem;
         }
 
-        .rating-badge .rb-stars { color: #07203a; font-weight:800; }
+        .rating-badge .rb-stars {
+            color: #07203a;
+            font-weight: 800;
+        }
 
         /* larger stars for rating area */
-        .opinion-card .stars .star { font-size:1.2rem; }
+        .opinion-card .stars .star {
+            font-size: 1.2rem;
+        }
 
-        .opinion-meta { font-size:0.85rem; color: #9fb2d8; }
+        .opinion-meta {
+            font-size: 0.85rem;
+            color: #9fb2d8;
+        }
 
         /* Stars */
-        .stars { display:flex; gap:6px; align-items:center }
-        .star { font-size:1.05rem; color:rgba(255,255,255,0.22); cursor:pointer; transition: color 160ms; }
-        .star.active { color: #ffd166; text-shadow: 0 6px 18px rgba(255,209,102,0.12); }
+        .stars {
+            display: flex;
+            gap: 6px;
+            align-items: center
+        }
+
+        .star {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.22);
+            cursor: pointer;
+            transition: color 160ms;
+        }
+
+        .star.active {
+            color: #ffd166;
+            text-shadow: 0 6px 18px rgba(255, 209, 102, 0.12);
+        }
 
         .carousel-controls {
-            position: absolute; left:12px; right:12px; top:50%; transform:translateY(-50%); display:flex; justify-content:space-between; pointer-events:none;
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
         }
 
-        .carousel-controls button { pointer-events:all; background:rgba(0,0,0,0.35); border:0; color:white; padding:10px 12px; border-radius:10px; backdrop-filter: blur(4px); cursor:pointer; }
+        .carousel-controls button {
+            pointer-events: all;
+            background: rgba(0, 0, 0, 0.35);
+            border: 0;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 10px;
+            backdrop-filter: blur(4px);
+            cursor: pointer;
+        }
 
-        .carousel-dots { text-align:center; margin-top:14px; display:flex; gap:8px; justify-content:center; }
-        .carousel-dot { width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.12); display:inline-block; cursor:pointer; }
-        .carousel-dot.active { background:#4ea8ff; box-shadow:0 4px 10px rgba(78,168,255,0.18); }
+        .carousel-dots {
+            text-align: center;
+            margin-top: 14px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
 
-        @media(max-width:900px){ .opinion-card{ padding:18px } }
-        @media(max-width:600px){ .opinion-avatar{ width:48px;height:48px } }
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .carousel-dot.active {
+            background: #4ea8ff;
+            box-shadow: 0 4px 10px rgba(78, 168, 255, 0.18);
+        }
+
+        @media(max-width:900px) {
+            .opinion-card {
+                padding: 18px
+            }
+        }
+
+        @media(max-width:600px) {
+            .opinion-avatar {
+                width: 48px;
+                height: 48px
+            }
+        }
 
         /* TESTIMONIALS STYLE (premium glass) */
-        .testimonials-section { background: linear-gradient(180deg,#020417 0%, rgba(2,6,23,0.6) 100%); }
-        .testimonials-wrap { position:relative; }
-        .testimonials-track { display:flex; gap:20px; overflow:hidden; padding:18px; scroll-behavior:smooth; }
-        .testimonials-track::-webkit-scrollbar { height:8px; }
+        .testimonials-section {
+            background: linear-gradient(180deg, #020417 0%, rgba(2, 6, 23, 0.6) 100%);
+        }
+
+        .testimonials-wrap {
+            position: relative;
+        }
+
+        .testimonials-track {
+            display: flex;
+            gap: 20px;
+            overflow: hidden;
+            padding: 18px;
+            scroll-behavior: smooth;
+        }
+
+        .testimonials-track::-webkit-scrollbar {
+            height: 8px;
+        }
+
         .testimonial-card {
             flex: 0 0 calc((100% - 40px) / 3);
-            min-width: 300px; max-width: 380px;
-            background: rgba(10,20,36,0.45);
-            border: 1px solid rgba(78,168,255,0.12);
+            min-width: 300px;
+            max-width: 380px;
+            background: rgba(10, 20, 36, 0.45);
+            border: 1px solid rgba(78, 168, 255, 0.12);
             border-radius: 16px;
-            padding:18px 18px 20px 18px;
+            padding: 18px 18px 20px 18px;
             backdrop-filter: blur(8px) saturate(120%);
-            box-shadow: 0 8px 30px rgba(2,10,30,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
-            position:relative;
-            overflow:hidden;
+            box-shadow: 0 8px 30px rgba(2, 10, 30, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+            position: relative;
+            overflow: hidden;
         }
-        .testimonial-card:before { content:''; position:absolute; inset:0; pointer-events:none; box-shadow: 0 0 40px rgba(30,130,255,0.04) inset; border-radius:16px; }
-        .testimonial-top { display:flex; gap:12px; align-items:center; }
-        .testimonial-avatar { width:68px; height:68px; border-radius:50%; overflow:hidden; flex:0 0 68px; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; font-size:1rem; border:2px solid rgba(255,255,255,0.04); box-shadow:0 6px 20px rgba(6,20,48,0.6); }
-        .testimonial-name { color:#eaf4ff; font-weight:700; font-size:1rem; display:flex; align-items:center; gap:8px; }
-        .verified-badge { background:rgba(78,168,255,0.12); color:#4ea8ff; padding:4px 8px; border-radius:999px; font-size:0.75rem; font-weight:700; }
-        .testimonial-text { color:var(--text-light); font-weight:700; margin-top:12px; font-size:0.98rem; line-height:1.35; min-height:66px; }
-        .profit-pill { margin-top:14px; display:inline-flex; gap:10px; align-items:center; background:linear-gradient(90deg,#062b1f,#08342b); color:#9ff3b1; padding:10px 12px; border-radius:10px; font-weight:800; box-shadow:0 8px 18px rgba(16,100,60,0.08); }
-        .mini-stars { color:#ffd166; margin-left:6px; }
-        .test-nav { position:absolute; top:50%; transform:translateY(-50%); z-index:40; background:linear-gradient(180deg, rgba(6,12,30,0.6), rgba(6,12,30,0.3)); border:1px solid rgba(78,168,255,0.08); color:#dff1ff; width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
-        .test-nav.left { left:-10px; }
-        .test-nav.right { right:-10px; }
 
-        @media(max-width:1100px){ .testimonial-card{ flex:0 0 calc((100% - 20px)/2); } }
-        @media(max-width:680px){ .testimonial-card{ flex:0 0 92%; } .test-nav.left{left:6px;} .test-nav.right{right:6px;} }
+        .testimonial-card:before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            box-shadow: 0 0 40px rgba(30, 130, 255, 0.04) inset;
+            border-radius: 16px;
+        }
+
+        .testimonial-top {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .testimonial-avatar {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex: 0 0 68px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #fff;
+            font-size: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 6px 20px rgba(6, 20, 48, 0.6);
+        }
+
+        .testimonial-name {
+            color: #eaf4ff;
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .verified-badge {
+            background: rgba(78, 168, 255, 0.12);
+            color: #4ea8ff;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .testimonial-text {
+            color: var(--text-light);
+            font-weight: 700;
+            margin-top: 12px;
+            font-size: 0.98rem;
+            line-height: 1.35;
+            min-height: 66px;
+        }
+
+        .profit-pill {
+            margin-top: 14px;
+            display: inline-flex;
+            gap: 10px;
+            align-items: center;
+            background: linear-gradient(90deg, #062b1f, #08342b);
+            color: #9ff3b1;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-weight: 800;
+            box-shadow: 0 8px 18px rgba(16, 100, 60, 0.08);
+        }
+
+        .mini-stars {
+            color: #ffd166;
+            margin-left: 6px;
+        }
+
+        .test-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 40;
+            background: linear-gradient(180deg, rgba(6, 12, 30, 0.6), rgba(6, 12, 30, 0.3));
+            border: 1px solid rgba(78, 168, 255, 0.08);
+            color: #dff1ff;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .test-nav.left {
+            left: -10px;
+        }
+
+        .test-nav.right {
+            right: -10px;
+        }
+
+        @media(max-width:1100px) {
+            .testimonial-card {
+                flex: 0 0 calc((100% - 20px)/2);
+            }
+        }
+
+        @media(max-width:680px) {
+            .testimonial-card {
+                flex: 0 0 92%;
+            }
+
+            .test-nav.left {
+                left: 6px;
+            }
+
+            .test-nav.right {
+                right: 6px;
+            }
+        }
 
         /* mini image on right of card */
         .card-thumb {
-            position:absolute; right:14px; bottom:14px; width:140px; height:84px; border-radius:8px; overflow:hidden; border:1px solid rgba(255,255,255,0.03); box-shadow: 0 8px 22px rgba(0,0,0,0.5); background:#071427; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.06); font-size:0.85rem;
+            position: absolute;
+            right: 14px;
+            bottom: 14px;
+            width: 140px;
+            height: 84px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5);
+            background: #071427;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.06);
+            font-size: 0.85rem;
+        }
+
+        /* Botones de acción en tarjetas */
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: flex-end;
+        }
+
+        .card-actions button {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            font-family: var(--font);
+        }
+
+        .btn-edit {
+            background-color: rgba(78, 168, 255, 0.15);
+            color: #4ea8ff;
+            border: 1px solid rgba(78, 168, 255, 0.3);
+        }
+
+        .btn-edit:hover {
+            background-color: rgba(78, 168, 255, 0.25);
+        }
+
+        .btn-delete {
+            background-color: rgba(255, 99, 99, 0.15);
+            color: #ff6363;
+            border: 1px solid rgba(255, 99, 99, 0.3);
+        }
+
+        .btn-delete:hover {
+            background-color: rgba(255, 99, 99, 0.25);
+        }
+
+        /* Botones específicos para testimonios */
+        .testimonial-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            justify-content: flex-end;
+        }
+
+        .testimonial-actions button {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        /* Media card and delete button */
+        .media-card {
+            background: rgba(10,20,36,0.45);
+            padding: 10px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .media-card img, .media-card video {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .media-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            cursor: pointer;
+            z-index: 6;
+        }
+
+        .media-delete:hover {
+            background: rgba(255, 99, 99, 0.92);
         }
     </style>
 </head>
@@ -442,13 +837,42 @@
 
     <!-- HERO -->
     <section id="hero">
-        <img src="logo.png" class="logo-img">
-        <h1>
+        <img src="logo_1.png" class="logo-img">
+        <h1 data-i18n="hero.title">
             Learn the proven system that has helped
             <span class="highlight">5,000+ traders</span> trade the right way
         </h1>
-        <p>If you're ready to become a next level trader, apply now...</p>
+        <p data-i18n="hero.subtitle">If you're ready to become a next level trader, apply now...</p>
     </section>
+
+    <!-- MEDIA GALLERY -->
+    <section id="media" style="padding:60px 20px;">
+        <div style="max-width:1200px;margin:0 auto 20px;text-align:center;">
+            <h2 style="color:#eaf4ff; font-size:1.8rem; margin-bottom:10px;">Sesiones & Multimedia</h2>
+            <p style="color:var(--text-light); max-width:900px; margin:0 auto 18px;">Sube fotos o videos cortos de las sesiones en vivo.</p>
+            <button id="open-media-modal" style="background-color:transparent; border:1px solid rgba(78,168,255,0.12); padding:10px 26px; font-size:0.95rem; font-weight:600; color:var(--text-light); border-radius:28px; cursor:pointer;">Subir foto/video</button>
+        </div>
+
+        <div style="max-width:1200px; margin:12px auto;">
+            <div id="media-grid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px;">
+                <!-- media items rendered here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- MEDIA UPLOAD MODAL -->
+    <div class="modal" id="media-modal">
+        <div class="modal-content">
+            <h2>Subir foto/video</h2>
+            <p style="color:var(--text-light); margin-bottom:12px;">Selecciona un archivo (imagen o video corto). Máx 10MB.</p>
+            <input id="media-file" type="file" accept="image/*,video/*" />
+            <div id="media-preview" style="margin-top:12px;"></div>
+            <div class="modal-buttons" style="margin-top:18px;">
+                <button class="btn-primary" id="upload-media">Subir</button>
+                <button class="btn-secondary" id="close-media">Cancelar</button>
+            </div>
+        </div>
+    </div>
 
     <!-- FEATURES -->
     <section id="features">
@@ -473,28 +897,37 @@
         </div>
     </section>
 
+    <!-- Language toggle -->
+    <button id="lang-toggle" title="Cambiar idioma"
+        style="position:fixed; right:18px; top:18px; z-index:1400; background:rgba(0,0,0,0.45); color:#eaf4ff; border:1px solid rgba(255,255,255,0.04); padding:8px 10px; border-radius:8px; cursor:pointer;">ES</button>
+
     <!-- QUIENES SOMOS / VIDEO -->
 
     <section id="about-video">
-        <h2>Who We Are</h2>
+        <h2 data-i18n="about.title">Who We Are</h2>
         <div class="video-wrapper">
             <!-- data-src can contain any YouTube watch URL or short URL; script will parse the id -->
-            <div id="video-placeholder" class="video-thumb" data-src="https://www.youtube.com/watch?v=7pmpQS6qCX4&feature=youtu.be" role="button" tabindex="0" aria-label="Reproducir video">
+            <div id="video-placeholder" class="video-thumb"
+                data-src="https://www.youtube.com/watch?v=7pmpQS6qCX4&feature=youtu.be" role="button" tabindex="0"
+                aria-label="Reproducir video">
                 <div class="play-btn" aria-hidden="true"></div>
             </div>
             <div id="video-embed" class="video-embed" style="display:none"></div>
         </div>
     </section>
-    
+
     <!-- TESTIMONIALS (Premium carousel) -->
     <section id="opinions" class="testimonials-section" style="padding:60px 20px;">
         <div class="testimonials-header" style="max-width:1200px;margin:0 auto 20px;text-align:center;">
             <div class="five-stars" style="margin-bottom:12px;color:#ffd166;font-size:1.6rem;">★★★★★</div>
-            <h2 style="margin:0; font-size:2rem; color:#eaf4ff; font-weight:700;">What Our Members Are Saying</h2>
+            <h2 data-i18n="testimonials.title" style="margin:0; font-size:2rem; color:#eaf4ff; font-weight:700;">What
+                Our Members Are Saying</h2>
         </div>
 
         <div style="max-width:1200px; margin:12px auto 20px; text-align:center;">
-            <button id="open-opinion-modal" style="background-color:transparent; border:1px solid rgba(78,168,255,0.12); padding:10px 26px; font-size:0.95rem; font-weight:600; color:var(--text-light); border-radius:28px; cursor:pointer; backdrop-filter: blur(6px);">Add Your Review</button>
+            <button id="open-opinion-modal" data-i18n="open_review"
+                style="background-color:transparent; border:1px solid rgba(78,168,255,0.12); padding:10px 26px; font-size:0.95rem; font-weight:600; color:var(--text-light); border-radius:28px; cursor:pointer; backdrop-filter: blur(6px);">Add
+                Your Review</button>
         </div>
 
         <div class="testimonials-wrap" style="max-width:1200px;margin:20px auto; position:relative;">
@@ -505,17 +938,22 @@
             <button class="test-nav right" id="next-slide" aria-label="Siguiente">▶</button>
         </div>
 
-        <div id="average-rating" style="max-width:1200px;margin:14px auto 0;text-align:center;color:var(--text-light);"></div>
+        <div id="average-rating" style="max-width:1200px;margin:14px auto 0;text-align:center;color:var(--text-light);">
+        </div>
 
-        <p id="opinions-empty" style="text-align:center; color:var(--text-light); margin-top:18px; display:none;">Todavía no hay opiniones. Sé el primero en dejar la tuya.</p>
+        <p id="opinions-empty" data-i18n="opinions.empty"
+            style="text-align:center; color:var(--text-light); margin-top:18px; display:none;">Todavía no hay opiniones.
+            Sé el primero en dejar la tuya.</p>
     </section>
 
     <!-- Contact section: botón que redirige a WhatsApp -->
     <section id="contact" style="padding:40px 20px; text-align:center;">
         <a id="contact-btn" href="https://wa.me/5356391384" target="_blank" rel="noopener noreferrer">
-            <button style="background-color:var(--button-blue); border:none; padding:15px 45px; font-size:1.1rem; font-weight:600; color:var(--text-white); border-radius:10px; cursor:pointer;">Contáctanos</button>
+            <button data-i18n="contact.btn"
+                style="background-color:var(--button-blue); border:none; padding:15px 45px; font-size:1.1rem; font-weight:600; color:var(--text-white); border-radius:10px; cursor:pointer;">Contáctanos</button>
         </a>
-        <p style="color:var(--text-light); margin-top:12px;">Haz clic en el botón para abrir WhatsApp con el número <strong>5356391384</strong>.</p>
+        <p data-i18n="contact.text" style="color:var(--text-light); margin-top:12px;">Haz clic en el botón para abrir
+            WhatsApp con el número <strong>5356391384</strong>.</p>
     </section>
 
 
@@ -532,32 +970,35 @@
         Created by Blue Makers Trading Academy · 2025
     </footer>
 
-    
+
 
     <!-- MODAL for adding opinion -->
     <div class="modal" id="opinion-modal">
-            <div class="modal-content">
-                <h2>Añadir opinión</h2>
-                <p>Comparte tu experiencia con nosotros.</p>
-                <input id="opinion-name" placeholder="Tu nombre (opcional)" />
-                <input id="opinion-message" placeholder="Tu opinión" />
+        <div class="modal-content">
+            <h2 data-i18n="modal.title">Añadir opinión</h2>
+            <p data-i18n="modal.prompt">Comparte tu experiencia con nosotros.</p>
+            <input id="opinion-name" data-i18n-attr-placeholder="opinion.name.placeholder"
+                placeholder="Tu nombre (opcional)" />
+            <input id="opinion-message" data-i18n-attr-placeholder="opinion.message.placeholder"
+                placeholder="Tu opinión" />
 
-                <div style="text-align:left; margin-bottom:12px;">
-                    <label style="display:block; color:var(--text-light); margin-bottom:6px;">Calificación</label>
-                    <div id="rating-select" class="stars" aria-label="Selecciona calificación">
-                        <span class="star" data-value="1">☆</span>
-                        <span class="star" data-value="2">☆</span>
-                        <span class="star" data-value="3">☆</span>
-                        <span class="star" data-value="4">☆</span>
-                        <span class="star" data-value="5">☆</span>
-                    </div>
-                </div>
-
-                <div class="modal-buttons">
-                    <button class="btn-primary" id="save-opinion">Enviar</button>
-                    <button class="btn-secondary" id="close-opinion">Cancelar</button>
+            <div style="text-align:left; margin-bottom:12px;">
+                <label style="display:block; color:var(--text-light); margin-bottom:6px;"
+                    data-i18n="rating.label">Calificación</label>
+                <div id="rating-select" class="stars" aria-label="Selecciona calificación">
+                    <span class="star" data-value="1">☆</span>
+                    <span class="star" data-value="2">☆</span>
+                    <span class="star" data-value="3">☆</span>
+                    <span class="star" data-value="4">☆</span>
+                    <span class="star" data-value="5">☆</span>
                 </div>
             </div>
+
+            <div class="modal-buttons">
+                <button class="btn-primary" id="save-opinion" data-i18n="save">Enviar</button>
+                <button class="btn-secondary" id="close-opinion" data-i18n="cancel">Cancelar</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -568,7 +1009,7 @@
             let h = 0;
             for (let i = 0; i < s.length; i++) h = (h << 5) - h + s.charCodeAt(i) | 0;
             h = Math.abs(h) % 360;
-            return `linear-gradient(135deg, hsl(${h} 80% 45%), hsl(${(h+40)%360} 85% 55%))`;
+            return `linear-gradient(135deg, hsl(${h} 80% 45%), hsl(${(h + 40) % 360} 85% 55%))`;
         }
 
         function createOpinionCard(op) {
@@ -599,7 +1040,7 @@
             const avatar = document.createElement('div');
             avatar.className = 'opinion-avatar';
             // initials
-            const initials = (op.name || 'Anon').split(' ').map(s=>s[0]).join('').slice(0,2).toUpperCase();
+            const initials = (op.name || 'Anon').split(' ').map(s => s[0]).join('').slice(0, 2).toUpperCase();
             avatar.textContent = initials;
             avatar.style.background = colorFromString(op.name || op.message || String(op.id));
 
@@ -630,10 +1071,10 @@
 
             const ratingDiv = document.createElement('div');
             ratingDiv.className = 'stars';
-            for (let i=1;i<=5;i++){
+            for (let i = 1; i <= 5; i++) {
                 const sp = document.createElement('span');
-                sp.className = 'star' + (op.rating && i<=op.rating? ' active':'');
-                sp.textContent = i<= (op.rating||0)? '★':'☆';
+                sp.className = 'star' + (op.rating && i <= op.rating ? ' active' : '');
+                sp.textContent = i <= (op.rating || 0) ? '★' : '☆';
                 // make stars clickable to rate this opinion
                 sp.style.cursor = 'pointer';
                 sp.dataset.value = i;
@@ -642,22 +1083,22 @@
                     // send rating to server
                     try {
                         const res = await fetch(`/opinions/${op.id}/rate`, {
-                            method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({rating: i})
+                            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rating: i })
                         });
                         if (!res.ok) throw new Error('rate failed');
                         const updated = await res.json();
                         // update local list and UI
-                        const idx = opinionsList.findIndex(x=>String(x.id)===String(updated.id));
-                        if (idx!== -1) opinionsList[idx] = updated;
+                        const idx = opinionsList.findIndex(x => String(x.id) === String(updated.id));
+                        if (idx !== -1) opinionsList[idx] = updated;
                         renderOpinions(opinionsList);
                         // scroll to updated card (after render)
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             const track = document.getElementById('testimonials-track');
                             if (!track) return;
                             const cards = Array.from(track.querySelectorAll('.testimonial-card'));
-                            const cardEl = cards.find(c=> c.dataset && String(c.dataset.id) === String(updated.id));
+                            const cardEl = cards.find(c => c.dataset && String(c.dataset.id) === String(updated.id));
                             // fallback: match by index
-                            if (!cardEl && idx>=0 && idx < cards.length) {
+                            if (!cardEl && idx >= 0 && idx < cards.length) {
                                 const c = cards[idx];
                                 track.scrollTo({ left: c.offsetLeft - track.offsetLeft - 12, behavior: 'smooth' });
                                 return;
@@ -675,7 +1116,7 @@
             ratingNum.style.color = '#d7ecff';
             ratingNum.style.fontWeight = '700';
             ratingNum.style.fontSize = '0.95rem';
-            ratingNum.textContent = `${op.rating?op.rating:'/'} /5`;
+            ratingNum.textContent = `${op.rating ? op.rating : '/'} /5`;
 
             ratingWrap.appendChild(ratingDiv);
             ratingWrap.appendChild(ratingNum);
@@ -683,11 +1124,39 @@
 
             card.appendChild(top);
             card.appendChild(msg);
+            // Botones de acción: Modificar / Eliminar
+            const actionsWrap = document.createElement('div');
+            actionsWrap.className = 'card-actions';
+
+            const editBtn = document.createElement('button');
+            editBtn.className = 'btn-edit';
+            editBtn.textContent = 'Modificar';
+            editBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openEditModal(op);
+            });
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn-delete';
+            deleteBtn.textContent = 'Eliminar';
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteOpinion(op.id);
+            });
+
+            actionsWrap.appendChild(editBtn);
+            actionsWrap.appendChild(deleteBtn);
+            card.appendChild(actionsWrap);
 
             // mini thumbnail (placeholder) - could be replaced by real media
             const thumb = document.createElement('div');
             thumb.className = 'card-thumb';
-            thumb.textContent = 'Imagen';
+            try {
+                const _lang = window.currentLang || localStorage.getItem('siteLang') || 'es';
+                thumb.textContent = (typeof I18N !== 'undefined' && I18N[_lang] && I18N[_lang]['card.thumb']) ? I18N[_lang]['card.thumb'] : 'Imagen';
+            } catch (e) {
+                thumb.textContent = 'Imagen';
+            }
             card.appendChild(thumb);
 
             slide.appendChild(card);
@@ -714,111 +1183,137 @@
         }
 
         function renderOpinions(list) {
-            // render premium testimonials carousel (horizontal)
-            const track = document.getElementById('testimonials-track');
-            const empty = document.getElementById('opinions-empty');
-            const avgWrap = document.getElementById('average-rating');
-            track.innerHTML = '';
-            if (!list || list.length === 0) {
-                empty.style.display = 'block';
-                avgWrap.innerHTML = '';
-                return;
-            }
-            empty.style.display = 'none';
+    const track = document.getElementById('testimonials-track');
+    const empty = document.getElementById('opinions-empty');
+    const avgWrap = document.getElementById('average-rating');
+    track.innerHTML = '';
+    
+    if (!list || list.length === 0) {
+        empty.style.display = 'block';
+        avgWrap.innerHTML = '';
+        return;
+    }
+    
+    empty.style.display = 'none';
 
-            list.forEach(op => {
-                const card = document.createElement('div');
-                card.className = 'testimonial-card';
-                if (op && op.id) card.dataset.id = op.id;
+    list.forEach(op => {
+        const card = document.createElement('div');
+        card.className = 'testimonial-card';
+        if (op && op.id) card.dataset.id = op.id;
 
-                const top = document.createElement('div');
-                top.className = 'testimonial-top';
+        const top = document.createElement('div');
+        top.className = 'testimonial-top';
 
-                const av = document.createElement('div');
-                av.className = 'testimonial-avatar';
-                const initials = (op.name||'Anon').split(' ').map(s=>s[0]).join('').slice(0,2).toUpperCase();
-                av.textContent = initials;
-                av.style.background = colorFromString(op.name||op.message||String(op.id));
+        const av = document.createElement('div');
+        av.className = 'testimonial-avatar';
+        const initials = (op.name||'Anon').split(' ').map(s=>s[0]).join('').slice(0,2).toUpperCase();
+        av.textContent = initials;
+        av.style.background = colorFromString(op.name||op.message||String(op.id));
 
-                const nameWrap = document.createElement('div');
-                const name = document.createElement('div');
-                name.className = 'testimonial-name';
-                name.textContent = op.name || 'Anon';
-                const verified = document.createElement('span');
-                verified.className = 'verified-badge';
-                verified.textContent = 'Verified Trader';
-                name.appendChild(verified);
+        const nameWrap = document.createElement('div');
+        const name = document.createElement('div');
+        name.className = 'testimonial-name';
+        name.textContent = op.name || 'Anon';
+        const verified = document.createElement('span');
+        verified.className = 'verified-badge';
+        verified.textContent = 'Verified Trader';
+        name.appendChild(verified);
 
-                const text = document.createElement('div');
-                text.className = 'testimonial-text';
-                text.textContent = op.message || '';
+        const text = document.createElement('div');
+        text.className = 'testimonial-text';
+        text.textContent = op.message || '';
 
-                nameWrap.appendChild(name);
+        nameWrap.appendChild(name);
 
-                top.appendChild(av);
-                top.appendChild(nameWrap);
+        top.appendChild(av);
+        top.appendChild(nameWrap);
 
-                // stars + rating
-                const smallStars = document.createElement('div');
-                smallStars.className = 'mini-stars';
-                for (let i=1;i<=5;i++){
-                    const s = document.createElement('span');
-                    s.textContent = (op.rating && i<=op.rating)? '★':'☆';
-                    s.style.cursor = 'pointer';
-                    s.dataset.value = i;
-                    s.addEventListener('click', async (ev) => {
-                        ev.stopPropagation();
-                        try {
-                            const res = await fetch(`/opinions/${op.id}/rate`, {
-                                method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({rating: i})
-                            });
-                            if (!res.ok) throw new Error('rate failed');
-                            const updated = await res.json();
-                            const idx = opinionsList.findIndex(x=>String(x.id)===String(updated.id));
-                            if (idx!== -1) opinionsList[idx] = updated;
-                            renderOpinions(opinionsList);
-                            // scroll to updated card
-                            setTimeout(()=>{
-                                const track = document.getElementById('testimonials-track');
-                                if (!track) return;
-                                const cards = Array.from(track.querySelectorAll('.testimonial-card'));
-                                const cardEl = cards.find(c=> c.dataset && String(c.dataset.id) === String(updated.id));
-                                if (!cardEl && idx>=0 && idx < cards.length) {
-                                    const c = cards[idx];
-                                    track.scrollTo({ left: c.offsetLeft - track.offsetLeft - 12, behavior: 'smooth' });
-                                    return;
-                                }
-                                if (cardEl) track.scrollTo({ left: cardEl.offsetLeft - track.offsetLeft - 12, behavior: 'smooth' });
-                            }, 80);
-                        } catch (err) {
-                            console.error('Error rating', err);
-                        }
-                    });
-                    smallStars.appendChild(s);
-                }
-
-                // profit metric (if present in message try to extract $ or %)
-                const profit = document.createElement('div');
-                profit.className = 'profit-pill';
-                const profitText = (op.profit) ? op.profit : (()=>{
-                    // try to find $ or % in message
-                    const m = String(op.message||'');
-                    const dollar = m.match(/\+?\$[0-9\,\.]+/);
-                    const perc = m.match(/\+?[0-9]{1,3}%/);
-                    return (dollar && dollar[0]) ? dollar[0] : (perc && perc[0]) ? perc[0] : '';
-                })();
-                if (profitText) profit.textContent = profitText; else profit.style.display = 'none';
-
-                card.appendChild(top);
-                card.appendChild(smallStars);
-                card.appendChild(text);
-                card.appendChild(profit);
-
-                track.appendChild(card);
-            });
-
-            updateAverageRating();
+        // Estrellas para calificación
+        const smallStars = document.createElement('div');
+        smallStars.className = 'mini-stars';
+        for (let i=1;i<=5;i++){
+            const s = document.createElement('span');
+            s.textContent = (op.rating && i<=op.rating)? '★':'☆';
+            s.style.color = (op.rating && i<=op.rating) ? '#ffd166' : 'rgba(255,255,255,0.2)';
+            smallStars.appendChild(s);
         }
+
+        // Profit metric
+        const profit = document.createElement('div');
+        profit.className = 'profit-pill';
+        const profitText = op.profit || '';
+        if (profitText) {
+            profit.textContent = profitText;
+        } else {
+            profit.style.display = 'none';
+        }
+
+        // BOTONES DE ACCIÓN
+        const actions = document.createElement('div');
+        actions.className = 'testimonial-actions';
+        
+        const editBtn = document.createElement('button');
+        editBtn.className = 'btn-edit';
+        editBtn.textContent = 'Modificar';
+        editBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openEditModal(op);
+        });
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'btn-delete';
+        deleteBtn.textContent = 'Eliminar';
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            deleteOpinion(op.id);
+        });
+        
+        actions.appendChild(editBtn);
+        actions.appendChild(deleteBtn);
+
+        card.appendChild(top);
+        card.appendChild(smallStars);
+        card.appendChild(text);
+        card.appendChild(profit);
+        card.appendChild(actions);
+
+        track.appendChild(card);
+    });
+
+    updateAverageRating();
+}
+
+// Variable para guardar el ID de la opinión que se está editando
+let editingOpinionId = null;
+
+function openEditModal(opinion) {
+    editingOpinionId = opinion.id;
+    
+    // Llenar el modal con los datos de la opinión
+    document.getElementById('opinion-name').value = opinion.name || '';
+    document.getElementById('opinion-message').value = opinion.message || '';
+    
+    // Establecer la calificación
+    selectedRating = opinion.rating || 0;
+    const stars = Array.from(document.querySelectorAll('#rating-select .star'));
+    stars.forEach(st => {
+        const val = Number(st.dataset.value);
+        st.classList.toggle('active', selectedRating && val <= selectedRating);
+    });
+    
+    // Cambiar el texto del botón de enviar
+    const saveBtn = document.getElementById('save-opinion');
+    saveBtn.textContent = 'Actualizar';
+    
+    // Cambiar el título del modal
+    const modalTitle = document.querySelector('#opinion-modal h2');
+    if (modalTitle) modalTitle.textContent = 'Modificar opinión';
+    
+    // Abrir el modal
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    document.getElementById('opinion-message').focus();
+}
 
         function updateAverageRating() {
             const wrap = document.getElementById('average-rating');
@@ -827,7 +1322,7 @@
                 return;
             }
             const ratings = opinionsList.map(o => (typeof o.rating === 'number' && !isNaN(o.rating)) ? o.rating : null).filter(Boolean);
-            const avg = ratings.length ? (ratings.reduce((a,b)=>a+b,0)/ratings.length) : null;
+            const avg = ratings.length ? (ratings.reduce((a, b) => a + b, 0) / ratings.length) : null;
             const count = opinionsList.length;
             wrap.innerHTML = '';
             if (avg !== null) {
@@ -835,10 +1330,10 @@
                 starsDiv.style.display = 'flex';
                 starsDiv.style.gap = '6px';
                 const full = Math.round(avg);
-                for (let i=1;i<=5;i++){
+                for (let i = 1; i <= 5; i++) {
                     const sp = document.createElement('span');
-                    sp.className = 'star' + (i<=full? ' active':'');
-                    sp.textContent = i<=full? '★':'☆';
+                    sp.className = 'star' + (i <= full ? ' active' : '');
+                    sp.textContent = i <= full ? '★' : '☆';
                     starsDiv.appendChild(sp);
                 }
                 const num = document.createElement('div');
@@ -854,7 +1349,7 @@
 
         function updateDots() {
             const dots = document.querySelectorAll('.carousel-dot');
-            dots.forEach((d,i)=> d.classList.toggle('active', i===currentIndex));
+            dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
         }
 
         function showSlide(index) {
@@ -998,25 +1493,48 @@
             }
 
             try {
-                const res = await fetch('/opinions', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, message, rating: selectedRating })
-                });
-                if (!res.ok) throw new Error('Error en el servidor');
-                const saved = await res.json();
-                // No insertamos localmente para evitar duplicados: la inserción
-                // la manejará la conexión SSE. Si el navegador no soporta SSE,
-                // insertamos localmente como fallback.
-                // If server sent the opinion, ensure local list updates and UI shows it.
-                opinionsList.unshift(saved);
+                let res, saved;
+                const payload = { name, message, rating: selectedRating };
+
+                // Si estamos editando una opinión existente, usar PUT al recurso
+                if (editingOpinionId) {
+                    res = await fetch(`/opinions/${editingOpinionId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!res.ok) throw new Error('Error actualizando en el servidor');
+                    saved = await res.json();
+
+                    // actualizar en la lista local
+                    const idx = opinionsList.findIndex(x => String(x.id) === String(saved.id));
+                    if (idx !== -1) opinionsList[idx] = saved;
+                    else opinionsList.unshift(saved);
+                } else {
+                    // creación nueva
+                    res = await fetch('/opinions', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!res.ok) throw new Error('Error en el servidor');
+                    saved = await res.json();
+                    opinionsList.unshift(saved);
+                }
+
                 renderOpinions(opinionsList);
-                const t = document.getElementById('testimonials-track'); if (t) t.scrollTo({left:0, behavior:'smooth'});
+                const t = document.getElementById('testimonials-track'); if (t) t.scrollTo({ left: 0, behavior: 'smooth' });
                 // reset form and rating UI
                 selectedRating = null;
                 stars.forEach(st => st.classList.remove('active'));
                 document.getElementById('opinion-name').value = '';
                 document.getElementById('opinion-message').value = '';
+
+                // reset editing state and modal UI
+                editingOpinionId = null;
+                const saveBtn = document.getElementById('save-opinion'); if (saveBtn) saveBtn.textContent = (I18N[window.currentLang] && I18N[window.currentLang]['save']) ? I18N[window.currentLang]['save'] : 'Enviar';
+                const modalTitle = document.querySelector('#opinion-modal h2'); if (modalTitle) modalTitle.textContent = (I18N[window.currentLang] && I18N[window.currentLang]['modal.title']) ? I18N[window.currentLang]['modal.title'] : 'Añadir opinión';
+
                 // close modal via helper to restore body scroll
                 try { closeModal(); } catch (err) { modal.style.display = 'none'; document.body.style.overflow = ''; }
             } catch (e) {
@@ -1024,6 +1542,22 @@
                 console.error(e);
             }
         });
+
+        // Eliminar opinión
+        async function deleteOpinion(id) {
+            if (!id) return;
+            if (!confirm('¿Eliminar esta opinión? Esta acción no se puede deshacer.')) return;
+            try {
+                const res = await fetch(`/opinions/${id}`, { method: 'DELETE' });
+                if (!res.ok) throw new Error('Error al eliminar');
+                // eliminar localmente y re-render
+                opinionsList = opinionsList.filter(o => String(o.id) !== String(id));
+                renderOpinions(opinionsList);
+            } catch (err) {
+                alert('No se pudo eliminar la opinión. Intenta de nuevo.');
+                console.error('deleteOpinion error', err);
+            }
+        }
 
         // SSE for realtime updates
         function startSSE() {
@@ -1037,7 +1571,7 @@
                     if (!exists) {
                         opinionsList.unshift(op);
                         renderOpinions(opinionsList);
-                        const t = document.getElementById('testimonials-track'); if (t) t.scrollTo({left:0, behavior:'smooth'});
+                        const t = document.getElementById('testimonials-track'); if (t) t.scrollTo({ left: 0, behavior: 'smooth' });
                     }
                 } catch (err) {
                     // ignore non-json ping messages
@@ -1080,6 +1614,93 @@
             carouselEl.addEventListener('mouseenter', () => { stopAutoplay(); });
             carouselEl.addEventListener('mouseleave', () => { startAutoplay(); });
         }
+
+        // Simple i18n: language toggle switch
+        const I18N = {
+            en: {
+                'hero.title': "Learn the proven system that has helped <span class='highlight'>5,000+ traders</span> trade the right way",
+                'hero.subtitle': "If you're ready to become a next level trader, apply now...",
+                'open_review': 'Add Your Review',
+                'testimonials.title': 'What Our Members Are Saying',
+                'about.title': 'Who We Are',
+                'modal.title': 'Add Review',
+                'modal.prompt': 'Share your experience with us.',
+                'opinion.name.placeholder': 'Your name (optional)',
+                'opinion.message.placeholder': 'Your review',
+                'rating.label': 'Rating',
+                'save': 'Send',
+                'cancel': 'Cancel',
+                'contact.btn': 'Contact Us',
+                'contact.text': 'Click the button to open WhatsApp with number 5356391384.',
+                'verified.badge': 'Verified Trader',
+                'card.thumb': 'Image',
+                'opinions.empty': 'No reviews yet. Be the first to add one.'
+            },
+            es: {
+                'hero.title': "Aprende el sistema comprobado que ha ayudado a <span class='highlight'>más de 5.000 traders</span> a operar correctamente",
+                'hero.subtitle': "Si estás listo para convertirte en un trader de otro nivel, inscríbete ahora...",
+                'open_review': 'Añadir opinión',
+                'testimonials.title': 'Lo que dicen nuestros miembros',
+                'about.title': 'Quiénes somos',
+                'modal.title': 'Añadir opinión',
+                'modal.prompt': 'Comparte tu experiencia con nosotros.',
+                'opinion.name.placeholder': 'Tu nombre (opcional)',
+                'opinion.message.placeholder': 'Tu opinión',
+                'rating.label': 'Calificación',
+                'save': 'Enviar',
+                'cancel': 'Cancelar',
+                'contact.btn': 'Contáctanos',
+                'contact.text': 'Haz clic en el botón para abrir WhatsApp con el número 5356391384.',
+                'verified.badge': 'Trader verificado',
+                'card.thumb': 'Imagen',
+                'opinions.empty': 'Todavía no hay opiniones. Sé el primero en dejar la tuya.'
+            }
+        };
+
+        function applyLanguage(lang) {
+            if (!I18N[lang]) lang = 'es';
+            // store current language globally so dynamic renders can access it
+            window.currentLang = lang;
+
+            // set button label
+            const toggle = document.getElementById('lang-toggle');
+            if (toggle) toggle.textContent = lang === 'es' ? 'ES' : 'EN';
+
+            // apply simple translations (static elements)
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (I18N[lang] && I18N[lang][key]) {
+                    // use innerHTML for hero title to allow <span>
+                    if (key === 'hero.title') el.innerHTML = I18N[lang][key];
+                    else el.textContent = I18N[lang][key];
+                }
+            });
+
+            // placeholders
+            document.querySelectorAll('[data-i18n-attr-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-attr-placeholder');
+                if (I18N[lang] && I18N[lang][key]) el.setAttribute('placeholder', I18N[lang][key]);
+            });
+
+            // persist
+            localStorage.setItem('siteLang', lang);
+
+            // re-render dynamic content (testimonials/opinions) so strings like verified badge
+            // and card thumbs get translated immediately
+            try { renderOpinions(opinionsList); } catch (e) { /* ignore if not ready */ }
+        }
+
+        // init lang
+        (function () {
+            const saved = localStorage.getItem('siteLang') || 'es';
+            applyLanguage(saved);
+            const btn = document.getElementById('lang-toggle');
+            if (btn) btn.addEventListener('click', () => {
+                const current = localStorage.getItem('siteLang') || 'es';
+                const next = current === 'es' ? 'en' : 'es';
+                applyLanguage(next);
+            });
+        })();
 
         // YouTube embed lazy loader: parses data-src and replaces placeholder with iframe on click
         function extractYouTubeId(url) {
@@ -1133,6 +1754,145 @@
 
         // initialize youtube placeholder after DOM ready (we're at end of body so safe)
         try { initYouTubePlaceholder(); } catch (err) { console.error('YouTube init error', err); }
+
+        // Media gallery functionality
+        async function loadMedia() {
+            try {
+                const res = await fetch('/media');
+                const list = await res.json();
+                const grid = document.getElementById('media-grid');
+                grid.innerHTML = '';
+                list.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'media-card';
+                    if (item && item.id) card.dataset.id = item.id;
+
+                    // delete button (top-right)
+                    const del = document.createElement('button');
+                    del.className = 'media-delete';
+                    del.type = 'button';
+                    del.title = 'Eliminar';
+                    del.textContent = '✕';
+                    del.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        if (!confirm('¿Eliminar este archivo? Esta acción no se puede deshacer.')) return;
+                        try {
+                            del.disabled = true;
+                            del.textContent = '...';
+                            const res = await fetch(`/media/${item.id}`, { method: 'DELETE' });
+                            if (!res.ok) {
+                                let body = '';
+                                try { body = await res.text(); } catch (er) { body = String(er); }
+                                alert(`Error eliminando: ${res.status} ${res.statusText}\n${body}`);
+                                del.disabled = false; del.textContent = '✕';
+                                return;
+                            }
+                            // remove card from UI
+                            card.remove();
+                        } catch (err) {
+                            alert('No se pudo eliminar. Intenta de nuevo.');
+                            console.error('delete media error', err);
+                            del.disabled = false; del.textContent = '✕';
+                        }
+                    });
+                    card.appendChild(del);
+
+                    if (item.mimetype && item.mimetype.startsWith('image')) {
+                        const img = document.createElement('img');
+                        img.src = item.url;
+                        card.appendChild(img);
+                    } else if (item.mimetype && item.mimetype.startsWith('video')) {
+                        const vid = document.createElement('video');
+                        vid.src = item.url;
+                        vid.controls = true;
+                        card.appendChild(vid);
+                    }
+
+                    const meta = document.createElement('div');
+                    meta.style.marginTop = '8px';
+                    meta.style.color = 'var(--text-light)';
+                    meta.style.fontSize = '0.9rem';
+                    meta.textContent = `${new Date(item.date).toLocaleString()} · ${item.originalname}`;
+                    card.appendChild(meta);
+
+                    grid.appendChild(card);
+                });
+            } catch (err) { console.error('Error loading media', err); }
+        }
+
+        // modal handlers
+        const mediaModal = document.getElementById('media-modal');
+        const mediaContent = mediaModal ? mediaModal.querySelector('.modal-content') : null;
+        document.getElementById('open-media-modal').addEventListener('click', () => {
+            if (!mediaModal) return;
+            mediaModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        document.getElementById('close-media').addEventListener('click', () => {
+            if (!mediaModal) return;
+            mediaModal.style.display = 'none';
+            document.body.style.overflow = '';
+            clearMediaModal();
+        });
+        if (mediaModal) {
+            mediaModal.addEventListener('click', (e)=>{ if (mediaContent && !mediaContent.contains(e.target)) { mediaModal.style.display='none'; document.body.style.overflow=''; clearMediaModal(); } });
+        }
+
+        function clearMediaModal() {
+            const input = document.getElementById('media-file');
+            input.value = '';
+            const prev = document.getElementById('media-preview'); prev.innerHTML = '';
+        }
+
+        // preview selected file
+        document.getElementById('media-file').addEventListener('change', (e)=>{
+            const file = e.target.files && e.target.files[0];
+            const prev = document.getElementById('media-preview'); prev.innerHTML = '';
+            if (!file) return;
+            if (file.type.startsWith('image')) {
+                const img = document.createElement('img'); img.style.maxWidth='100%'; img.style.maxHeight='240px'; img.src = URL.createObjectURL(file); prev.appendChild(img);
+            } else if (file.type.startsWith('video')) {
+                const v = document.createElement('video'); v.controls=true; v.style.maxWidth='100%'; v.style.maxHeight='240px'; v.src = URL.createObjectURL(file); prev.appendChild(v);
+            } else {
+                prev.textContent = 'Tipo de archivo no soportado';
+            }
+        });
+
+        // upload
+        document.getElementById('upload-media').addEventListener('click', async ()=>{
+            const input = document.getElementById('media-file');
+            const file = input.files && input.files[0];
+            const uploadBtn = document.getElementById('upload-media');
+            if (!file) { alert('Selecciona un archivo'); return; }
+            const fd = new FormData(); fd.append('file', file);
+            try {
+                // disable button while uploading
+                if (uploadBtn) { uploadBtn.disabled = true; uploadBtn.textContent = 'Subiendo...'; }
+                const res = await fetch('/media', { method: 'POST', body: fd });
+                if (!res.ok) {
+                    // try to get server error body
+                    let bodyText = '';
+                    try { bodyText = await res.text(); } catch (e) { bodyText = String(e); }
+                    const msg = `Error subiendo archivo: ${res.status} ${res.statusText}\n${bodyText}`;
+                    alert(msg);
+                    console.error('upload failed', msg);
+                    return;
+                }
+                const saved = await res.json();
+                // refresh gallery
+                await loadMedia();
+                // close modal
+                mediaModal.style.display = 'none'; document.body.style.overflow = ''; clearMediaModal();
+            } catch (err) {
+                alert('No se pudo subir el archivo. Error: ' + (err && err.message ? err.message : String(err)));
+                console.error('upload error', err);
+            } finally {
+                if (uploadBtn) { uploadBtn.disabled = false; uploadBtn.textContent = 'Subir'; }
+            }
+        });
+
+        // inicializar media
+        try { loadMedia(); } catch (e) { console.error(e); }
     </script>
 </body>
 
