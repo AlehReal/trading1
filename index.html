@@ -59,8 +59,8 @@
             font-size: 2.8rem;
             font-weight: 800;
             max-width: 850px;
-            /* empuja el título hacia abajo para que no quede al mismo nivel que el logo */
-            margin: 60px auto 25px;
+            /* empuja el título más abajo para quedar claramente debajo del logo */
+            margin: 260px auto 25px;
             line-height: 1.3;
         }
 
@@ -72,7 +72,8 @@
         #hero p {
             color: var(--text-light);
             font-size: 1.1rem;
-            margin-bottom: 35px;
+            /* separar más el subtítulo respecto al título */
+            margin: 120px auto 35px;
         }
 
         #hero button {
@@ -321,6 +322,12 @@
         @media(max-width: 600px) {
             #hero h1 {
                 font-size: 2rem;
+                /* en móvil reducir el empuje pero mantener separación del logo */
+                margin-top: 190px;
+            }
+
+            #hero p {
+                /* mantener separación adicional en móvil */
                 margin-top: 80px;
             }
 
@@ -830,6 +837,24 @@
         .media-delete:hover {
             background: rgba(255, 99, 99, 0.92);
         }
+
+        /* Social buttons in footer */
+        .social-links { }
+        .social-btn {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:38px;
+            height:38px;
+            border-radius:50%;
+            background: rgba(255,255,255,0.04);
+            color: #eaf4ff;
+            text-decoration: none;
+            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: background 160ms, transform 160ms;
+        }
+        .social-btn:hover { background: rgba(78,168,255,0.14); transform: translateY(-2px); }
     </style>
 </head>
 
@@ -848,9 +873,9 @@
     <!-- MEDIA GALLERY -->
     <section id="media" style="padding:60px 20px;">
         <div style="max-width:1200px;margin:0 auto 20px;text-align:center;">
-            <h2 style="color:#eaf4ff; font-size:1.8rem; margin-bottom:10px;">Sesiones & Multimedia</h2>
-            <p style="color:var(--text-light); max-width:900px; margin:0 auto 18px;">Sube fotos o videos cortos de las sesiones en vivo.</p>
-            <button id="open-media-modal" style="background-color:transparent; border:1px solid rgba(78,168,255,0.12); padding:10px 26px; font-size:0.95rem; font-weight:600; color:var(--text-light); border-radius:28px; cursor:pointer;">Subir foto/video</button>
+            <h2 data-i18n="media.title" style="color:#eaf4ff; font-size:1.8rem; margin-bottom:10px;">Sesiones & Multimedia</h2>
+            <p data-i18n="media.subtitle" style="color:var(--text-light); max-width:900px; margin:0 auto 18px;">Sube fotos o videos cortos de las sesiones en vivo.</p>
+            <button id="open-media-modal" data-i18n="media.uploadButton" style="background-color:transparent; border:1px solid rgba(78,168,255,0.12); padding:10px 26px; font-size:0.95rem; font-weight:600; color:var(--text-light); border-radius:28px; cursor:pointer;">Subir foto/video</button>
         </div>
 
         <div style="max-width:1200px; margin:12px auto;">
@@ -863,13 +888,13 @@
     <!-- MEDIA UPLOAD MODAL -->
     <div class="modal" id="media-modal">
         <div class="modal-content">
-            <h2>Subir foto/video</h2>
-            <p style="color:var(--text-light); margin-bottom:12px;">Selecciona un archivo (imagen o video corto). Máx 10MB.</p>
+            <h2 data-i18n="media.modal.title">Subir foto/video</h2>
+            <p data-i18n="media.modal.prompt" style="color:var(--text-light); margin-bottom:12px;">Selecciona un archivo (imagen o video corto). Máx 10MB.</p>
             <input id="media-file" type="file" accept="image/*,video/*" />
             <div id="media-preview" style="margin-top:12px;"></div>
             <div class="modal-buttons" style="margin-top:18px;">
-                <button class="btn-primary" id="upload-media">Subir</button>
-                <button class="btn-secondary" id="close-media">Cancelar</button>
+                <button class="btn-primary" id="upload-media" data-i18n="media.modal.upload">Subir</button>
+                <button class="btn-secondary" id="close-media" data-i18n="media.modal.cancel">Cancelar</button>
             </div>
         </div>
     </div>
@@ -948,12 +973,12 @@
 
     <!-- Contact section: botón que redirige a WhatsApp -->
     <section id="contact" style="padding:40px 20px; text-align:center;">
-        <a id="contact-btn" href="https://wa.me/5356391384" target="_blank" rel="noopener noreferrer">
+        <a id="contact-btn" href="https://wa.me/51973771856" target="_blank" rel="noopener noreferrer">
             <button data-i18n="contact.btn"
                 style="background-color:var(--button-blue); border:none; padding:15px 45px; font-size:1.1rem; font-weight:600; color:var(--text-white); border-radius:10px; cursor:pointer;">Contáctanos</button>
         </a>
         <p data-i18n="contact.text" style="color:var(--text-light); margin-top:12px;">Haz clic en el botón para abrir
-            WhatsApp con el número <strong>5356391384</strong>.</p>
+            WhatsApp con el número <strong>51973771856</strong>.</p>
     </section>
 
 
@@ -967,7 +992,15 @@
     </section>
 
     <footer>
-        Created by Blue Makers Trading Academy · 2025
+        <div style="display:flex;gap:18px;align-items:center;justify-content:center;flex-direction:column;">
+            <div id="social-links" class="social-links" style="display:flex;gap:12px;margin-bottom:10px;">
+                <a id="social-link-facebook" class="social-btn" href="#" title="Facebook" aria-label="Facebook">f</a>
+                <a id="social-link-instagram" class="social-btn" href="#" title="Instagram" aria-label="Instagram">ig</a>
+                <a id="social-link-youtube" class="social-btn" href="#" title="YouTube" aria-label="YouTube">yt</a>
+                <a id="social-link-twitter" class="social-btn" href="#" title="X / Twitter" aria-label="X">x</a>
+            </div>
+            <div>Created by Blue Makers Trading Academy · 2025</div>
+        </div>
     </footer>
 
 
@@ -1630,6 +1663,14 @@ function openEditModal(opinion) {
                 'rating.label': 'Rating',
                 'save': 'Send',
                 'cancel': 'Cancel',
+                // Media gallery translations
+                'media.title': 'Sessions & Multimedia',
+                'media.subtitle': 'Upload photos or short session videos.',
+                'media.uploadButton': 'Upload photo/video',
+                'media.modal.title': 'Upload photo/video',
+                'media.modal.prompt': 'Select a file (image or short video). Max 10MB.',
+                'media.modal.upload': 'Upload',
+                'media.modal.cancel': 'Cancel',
                 'contact.btn': 'Contact Us',
                 'contact.text': 'Click the button to open WhatsApp with number 5356391384.',
                 'verified.badge': 'Verified Trader',
@@ -1649,6 +1690,14 @@ function openEditModal(opinion) {
                 'rating.label': 'Calificación',
                 'save': 'Enviar',
                 'cancel': 'Cancelar',
+                // Traducciones para la galería multimedia
+                'media.title': 'Sesiones & Multimedia',
+                'media.subtitle': 'Sube fotos o videos cortos de las sesiones en vivo.',
+                'media.uploadButton': 'Subir foto/video',
+                'media.modal.title': 'Subir foto/video',
+                'media.modal.prompt': 'Selecciona un archivo (imagen o video corto). Máx 10MB.',
+                'media.modal.upload': 'Subir',
+                'media.modal.cancel': 'Cancelar',
                 'contact.btn': 'Contáctanos',
                 'contact.text': 'Haz clic en el botón para abrir WhatsApp con el número 5356391384.',
                 'verified.badge': 'Trader verificado',
@@ -1701,6 +1750,17 @@ function openEditModal(opinion) {
                 applyLanguage(next);
             });
         })();
+
+        // Helper to update social links dynamically
+        window.updateSocialLinks = function(links) {
+            // links: { facebook, instagram, youtube, twitter }
+            try {
+                if (links.facebook) document.getElementById('social-link-facebook').setAttribute('href', links.facebook);
+                if (links.instagram) document.getElementById('social-link-instagram').setAttribute('href', links.instagram);
+                if (links.youtube) document.getElementById('social-link-youtube').setAttribute('href', links.youtube);
+                if (links.twitter) document.getElementById('social-link-twitter').setAttribute('href', links.twitter);
+            } catch (e) { /* ignore if DOM not ready */ }
+        };
 
         // YouTube embed lazy loader: parses data-src and replaces placeholder with iframe on click
         function extractYouTubeId(url) {
