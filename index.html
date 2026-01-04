@@ -43,16 +43,39 @@
             background-size: cover;
             background-position: center;
             position: relative;
+            --hero-title-top: 260px; /* controla la separación vertical del título */
             padding: 80px 20px 140px 20px;
             text-align: center;
         }
 
+        /* overlay para bajar la intensidad del fondo del hero */
+        #hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.34); /* ajustar opacidad aquí si quieres más/menos oscurecido */
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 0;
+        }
+
+        /* aseguro que los elementos del hero estén por encima del overlay */
+        #hero .logo-img,
+        #hero h1,
+        #hero p,
+        #hero button {
+            position: relative;
+            z-index: 1;
+        }
+
         #hero .logo-img {
-            width: 200px;
+            width: 260px; /* tamaño por defecto */
             margin-bottom: 0;
             position: absolute;
-            left: 20px;
-            top: 20px;
+            left: 50%;
+            top: 120px; /* fijado a 120px según solicitud */
+            transform: translateX(-50%); /* centra horizontalmente */
+            z-index: 2;
         }
 
         #hero h1 {
@@ -122,15 +145,7 @@
 
         .feature h3 {
             margin-bottom: 10px;
-            font-size: 1.2rem;
         }
-
-        .feature p {
-            color: var(--text-light);
-            font-size: 0.95rem;
-        }
-
-        /* VIDEO / QUIENES SOMOS */
         #about-video {
             padding: 60px 20px;
             text-align: center;
@@ -320,10 +335,10 @@
         }
 
         @media(max-width: 600px) {
+            #hero { --hero-title-top: 190px; }
             #hero h1 {
                 font-size: 2rem;
                 /* en móvil reducir el empuje pero mantener separación del logo */
-                margin-top: 190px;
             }
 
             #hero p {
@@ -713,18 +728,15 @@
             }
         }
 
-        @media(max-width:680px) {
-            .testimonial-card {
-                flex: 0 0 92%;
-            }
+        @media(max-width: 900px) {
+            /* ajustar logo en tablets / pantallas medianas */
+            #hero .logo-img { width: 220px; top: 100px; }
+        }
 
-            .test-nav.left {
-                left: 6px;
-            }
-
-            .test-nav.right {
-                right: 6px;
-            }
+        @media(max-width: 600px) {
+            /* en móvil reducir el empuje del título y el logo */
+            #hero .logo-img { width: 160px; top: 80px; }
+            #hero p { margin-top: 60px; }
         }
 
         /* mini image on right of card */
@@ -870,6 +882,20 @@
         <p data-i18n="hero.subtitle">If you're ready to become a next level trader, apply now...</p>
     </section>
 
+    <!-- QUIENES SOMOS / VIDEO (movida para ser la segunda sección) -->
+    <section id="about-video">
+        <h2 data-i18n="about.title">Who We Are</h2>
+        <div class="video-wrapper">
+            <!-- data-src can contain any YouTube watch URL or short URL; script will parse the id -->
+            <div id="video-placeholder" class="video-thumb"
+                data-src="https://www.youtube.com/watch?v=7pmpQS6qCX4&feature=youtu.be" role="button" tabindex="0"
+                aria-label="Reproducir video">
+                <div class="play-btn" aria-hidden="true"></div>
+            </div>
+            <div id="video-embed" class="video-embed" style="display:none"></div>
+        </div>
+    </section>
+
     <!-- MEDIA GALLERY -->
     <section id="media" style="padding:60px 20px;">
         <div style="max-width:1200px;margin:0 auto 20px;text-align:center;">
@@ -926,20 +952,6 @@
     <button id="lang-toggle" title="Cambiar idioma"
         style="position:fixed; right:18px; top:18px; z-index:1400; background:rgba(0,0,0,0.45); color:#eaf4ff; border:1px solid rgba(255,255,255,0.04); padding:8px 10px; border-radius:8px; cursor:pointer;">ES</button>
 
-    <!-- QUIENES SOMOS / VIDEO -->
-
-    <section id="about-video">
-        <h2 data-i18n="about.title">Who We Are</h2>
-        <div class="video-wrapper">
-            <!-- data-src can contain any YouTube watch URL or short URL; script will parse the id -->
-            <div id="video-placeholder" class="video-thumb"
-                data-src="https://www.youtube.com/watch?v=7pmpQS6qCX4&feature=youtu.be" role="button" tabindex="0"
-                aria-label="Reproducir video">
-                <div class="play-btn" aria-hidden="true"></div>
-            </div>
-            <div id="video-embed" class="video-embed" style="display:none"></div>
-        </div>
-    </section>
 
     <!-- TESTIMONIALS (Premium carousel) -->
     <section id="opinions" class="testimonials-section" style="padding:60px 20px;">
@@ -994,10 +1006,8 @@
     <footer>
         <div style="display:flex;gap:18px;align-items:center;justify-content:center;flex-direction:column;">
             <div id="social-links" class="social-links" style="display:flex;gap:12px;margin-bottom:10px;">
-                <a id="social-link-facebook" class="social-btn" href="#" title="Facebook" aria-label="Facebook">f</a>
-                <a id="social-link-instagram" class="social-btn" href="#" title="Instagram" aria-label="Instagram">ig</a>
-                <a id="social-link-youtube" class="social-btn" href="#" title="YouTube" aria-label="YouTube">yt</a>
-                <a id="social-link-twitter" class="social-btn" href="#" title="X / Twitter" aria-label="X">x</a>
+                <a id="social-link-instagram" class="social-btn" href="https://www.instagram.com/blue.makers_?igsh=+eWVraDEzYm5zc3oy" title="Instagram" aria-label="Instagram">ig</a>
+                <a id="social-link-youtube" class="social-btn" href="https://youtube.com/@bluemakers-z5f?si=+64BrUwlhPfhtSHN1" title="YouTube" aria-label="YouTube">yt</a>
             </div>
             <div>Created by Blue Makers Trading Academy · 2025</div>
         </div>
