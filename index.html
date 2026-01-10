@@ -901,7 +901,7 @@
         <div style="max-width:1200px;margin:0 auto 20px;text-align:center;">
             <h2 data-i18n="media.title" style="color:#eaf4ff; font-size:1.8rem; margin-bottom:10px;">Sesiones & Multimedia</h2>
             <p data-i18n="media.subtitle" style="color:var(--text-light); max-width:900px; margin:0 auto 18px;">Sube fotos o videos cortos de las sesiones en vivo.</p>
-            <button id="open-media-modal" data-i18n="media.uploadButton" style="background-color:transparent; border:1px solid rgba(78,168,255,0.12); padding:10px 26px; font-size:0.95rem; font-weight:600; color:var(--text-light); border-radius:28px; cursor:pointer;">Subir foto/video</button>
+            <button id="open-media-modal" data-i18n="media.uploadButton" style="background-color:transparent; border:1px solid rgba(78,168,255,0.12); padding:10px 26px; font-size:0.95rem; font-weight:600; color:var(--text-light); border-radius:28px; cursor:pointer;">Instrucciones de subida (manual)</button>
         </div>
 
         <div style="max-width:1200px; margin:12px auto;">
@@ -1920,11 +1920,9 @@ function openEditModal(opinion) {
         }
 
         document.getElementById('open-media-modal').addEventListener('click', async () => {
-            if (!mediaModal) return;
-            const ok = await ensureAdmin();
-            if (!ok) return;
-            mediaModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+            // Mostrar instrucciones para subida manual en vez de habilitar subida desde la UI
+            const instructions = `Para subir archivos manualmente:\n\n1) Copia el archivo (imagen o video) al directorio 'uploads/' del servidor.\n   - Ejemplo: '/home/usuario/trading/uploads/mi_video.mp4'\n\n2) Añade la metadata en 'media.json' (archivo JSON en la raíz del proyecto). Agrega un objeto como este al inicio del array:\n\n  {\n    "id": 1672560000000,\n    "originalname": "mi_video.mp4",\n    "filename": "1672560000000-mi_video.mp4",\n    "url": "/uploads/1672560000000-mi_video.mp4",\n    "mimetype": "video/mp4",\n    "size": 1234567,\n    "date": "2026-01-10T12:00:00.000Z"\n  }\n\n3) Guarda 'media.json'. Si tu servidor mantiene archivo en caché, reinícialo.\n\nSi quieres, puedo ayudarte a generar la entrada de 'media.json' si me pasas el nombre de archivo y tamaño.`;
+            alert(instructions);
         });
         document.getElementById('close-media').addEventListener('click', () => {
             if (!mediaModal) return;
@@ -1957,39 +1955,12 @@ function openEditModal(opinion) {
         });
 
         // upload
-        document.getElementById('upload-media').addEventListener('click', async ()=>{
-            const input = document.getElementById('media-file');
-            const file = input.files && input.files[0];
-            const uploadBtn = document.getElementById('upload-media');
-            if (!file) { alert('Selecciona un archivo'); return; }
-            const fd = new FormData(); fd.append('file', file);
-            try {
-                // disable button while uploading
-                if (uploadBtn) { uploadBtn.disabled = true; uploadBtn.textContent = 'Subiendo...'; }
-                const token = sessionStorage.getItem('adminToken');
-                const headers = token ? { 'x-admin-token': token } : {};
-                const res = await fetch('/media', { method: 'POST', body: fd, headers });
-                if (!res.ok) {
-                    // try to get server error body
-                    let bodyText = '';
-                    try { bodyText = await res.text(); } catch (e) { bodyText = String(e); }
-                    const msg = `Error subiendo archivo: ${res.status} ${res.statusText}\n${bodyText}`;
-                    alert(msg);
-                    console.error('upload failed', msg);
-                    return;
-                }
-                const saved = await res.json();
-                // refresh gallery
-                await loadMedia();
-                // close modal
-                mediaModal.style.display = 'none'; document.body.style.overflow = ''; clearMediaModal();
-            } catch (err) {
-                alert('No se pudo subir el archivo. Error: ' + (err && err.message ? err.message : String(err)));
-                console.error('upload error', err);
-            } finally {
-                if (uploadBtn) { uploadBtn.disabled = false; uploadBtn.textContent = 'Subir'; }
-            }
-        });
+        // Disabled upload via UI: manual upload instructions are provided instead
+        const uploadBtn = document.getElementById('upload-media');
+        if (uploadBtn) {
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = 'Subida manual';
+        }
 
         // inicializar media
         try { loadMedia(); } catch (e) { console.error(e); }
