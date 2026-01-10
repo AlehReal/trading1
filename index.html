@@ -1849,8 +1849,20 @@ function openEditModal(opinion) {
                         try {
                             del.disabled = true;
                             del.textContent = '...';
-                            const token = sessionStorage.getItem('adminToken');
-                            const headers = token ? { 'x-admin-token': token } : {};
+                            // prefer admin user/pass stored in sessionStorage
+                            let headers = {};
+                            const creds = getAdminCredentials();
+                            if (creds.user && creds.pass) {
+                                headers['x-admin-user'] = creds.user;
+                                headers['x-admin-pass'] = creds.pass;
+                            } else {
+                                // ask for credentials if not present
+                                const ok = await ensureAdmin();
+                                if (!ok) { alert('Operación cancelada por falta de credenciales'); del.disabled = false; del.textContent = '✕'; return; }
+                                const c2 = getAdminCredentials();
+                                headers['x-admin-user'] = c2.user;
+                                headers['x-admin-pass'] = c2.pass;
+                            }
                             const res = await fetch(`/media/${item.id}`, { method: 'DELETE', headers });
                             if (!res.ok) {
                                 let body = '';
@@ -1896,33 +1908,54 @@ function openEditModal(opinion) {
         const mediaModal = document.getElementById('media-modal');
         const mediaContent = mediaModal ? mediaModal.querySelector('.modal-content') : null;
 
-        function getAdminToken() { return sessionStorage.getItem('adminToken'); }
+        function getAdminCredentials() {
+            return {
+                user: sessionStorage.getItem('adminUser'),
+                pass: sessionStorage.getItem('adminPass')
+            };
+        }
 
         async function ensureAdmin() {
-            let token = getAdminToken();
-            if (!token) {
-                token = prompt('Introduce el token de administrador para subir multimedia (solo desarrollador)');
-                if (!token) return false;
-                sessionStorage.setItem('adminToken', token);
+            let creds = getAdminCredentials();
+            if (!creds.user) {
+                const user = prompt('Usuario admin:');
+                if (!user) return false;
+                const pass = prompt('Contraseña admin:');
+                if (!pass) return false;
+                sessionStorage.setItem('adminUser', user);
+                sessionStorage.setItem('adminPass', pass);
+                creds = { user, pass };
             }
             try {
-                const res = await fetch('/admin/validate', { headers: { 'x-admin-token': token } });
+                const res = await fetch('/admin/validate', { headers: { 'x-admin-user': creds.user, 'x-admin-pass': creds.pass } });
                 if (res.ok) return true;
-                // invalid -> remove token
-                sessionStorage.removeItem('adminToken');
-                alert('Token inválido');
+                // invalid -> remove stored creds
+                sessionStorage.removeItem('adminUser');
+                sessionStorage.removeItem('adminPass');
+                alert('Credenciales inválidas');
                 return false;
             } catch (e) {
-                sessionStorage.removeItem('adminToken');
-                alert('No se pudo validar el token. Revisa la conexión al servidor.');
+                sessionStorage.removeItem('adminUser');
+                sessionStorage.removeItem('adminPass');
+                alert('No se pudo validar las credenciales. Revisa la conexión al servidor.');
                 return false;
             }
         }
 
         document.getElementById('open-media-modal').addEventListener('click', async () => {
-            // Mostrar instrucciones para subida manual en vez de habilitar subida desde la UI
-            const instructions = `Para subir archivos manualmente:\n\n1) Copia el archivo (imagen o video) al directorio 'uploads/' del servidor.\n   - Ejemplo: '/home/usuario/trading/uploads/mi_video.mp4'\n\n2) Añade la metadata en 'media.json' (archivo JSON en la raíz del proyecto). Agrega un objeto como este al inicio del array:\n\n  {\n    "id": 1672560000000,\n    "originalname": "mi_video.mp4",\n    "filename": "1672560000000-mi_video.mp4",\n    "url": "/uploads/1672560000000-mi_video.mp4",\n    "mimetype": "video/mp4",\n    "size": 1234567,\n    "date": "2026-01-10T12:00:00.000Z"\n  }\n\n3) Guarda 'media.json'. Si tu servidor mantiene archivo en caché, reinícialo.\n\nSi quieres, puedo ayudarte a generar la entrada de 'media.json' si me pasas el nombre de archivo y tamaño.`;
-            alert(instructions);
+            // Solicitar credenciales admin antes de permitir abrir el modal de subida
+            try {
+                const ok = await ensureAdmin();
+                if (!ok) { alert('Credenciales inválidas o cancelado'); return; }
+                if (!mediaModal) return;
+                mediaModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                // foco en input
+                const inp = document.getElementById('media-file'); if (inp) inp.focus();
+            } catch (e) {
+                console.error('Error abriendo modal de media', e);
+                alert('No se pudo abrir el modal. Intenta de nuevo.');
+            }
         });
         document.getElementById('close-media').addEventListener('click', () => {
             if (!mediaModal) return;
@@ -1955,11 +1988,44 @@ function openEditModal(opinion) {
         });
 
         // upload
-        // Disabled upload via UI: manual upload instructions are provided instead
         const uploadBtn = document.getElementById('upload-media');
         if (uploadBtn) {
-            uploadBtn.disabled = true;
-            uploadBtn.textContent = 'Subida manual';
+            uploadBtn.disabled = false;
+            uploadBtn.textContent = (I18N[window.currentLang] && I18N[window.currentLang]['media.modal.upload']) ? I18N[window.currentLang]['media.modal.upload'] : 'Subir';
+            uploadBtn.addEventListener('click', async () => {
+                const fileInput = document.getElementById('media-file');
+                const file = fileInput && fileInput.files && fileInput.files[0];
+                if (!file) { alert('Selecciona un archivo primero.'); return; }
+                uploadBtn.disabled = true;
+                const uploadText = (I18N[window.currentLang] && I18N[window.currentLang]['media.modal.upload']) ? I18N[window.currentLang]['media.modal.upload'] : 'Subir';
+                uploadBtn.textContent = 'Subiendo...';
+                try {
+                    const ok = await ensureAdmin();
+                    if (!ok) { alert('Credenciales inválidas'); uploadBtn.disabled = false; uploadBtn.textContent = uploadText; return; }
+                    const creds = getAdminCredentials();
+                    const fd = new FormData();
+                    fd.append('file', file, file.name);
+                    const headers = { 'x-admin-user': creds.user, 'x-admin-pass': creds.pass };
+                    const res = await fetch('/media', { method: 'POST', body: fd, headers });
+                    if (!res.ok) {
+                        let body = '';
+                        try { body = await res.text(); } catch (er) { body = String(er); }
+                        throw new Error(`${res.status} ${res.statusText} ${body}`);
+                    }
+                    const item = await res.json();
+                    // refresh grid and close modal
+                    try { await loadMedia(); } catch (e) { console.warn('could not reload media after upload', e); }
+                    clearMediaModal();
+                    if (mediaModal) { mediaModal.style.display = 'none'; document.body.style.overflow = ''; }
+                    alert('Archivo subido correctamente');
+                } catch (err) {
+                    alert('Error subiendo archivo: ' + (err.message || err));
+                    console.error('upload error', err);
+                } finally {
+                    uploadBtn.disabled = false;
+                    uploadBtn.textContent = (I18N[window.currentLang] && I18N[window.currentLang]['media.modal.upload']) ? I18N[window.currentLang]['media.modal.upload'] : 'Subir';
+                }
+            });
         }
 
         // inicializar media
