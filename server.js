@@ -60,20 +60,33 @@ const upload = multer({
 // expose uploads directory (files accessible at /uploads/*)
 app.use('/uploads', express.static(UPLOAD_DIR));
 
-// Admin token - set via env var in production. Default is a development token.
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'dev-token-please-change';
+// Admin credentials - HARDCODED as requested by developer.
+// WARNING: Hardcoding credentials is insecure. Remove or replace with environment
+// variables before publishing or deploying to a shared environment.
+const ADMIN_TOKEN = 'dev-token-please-change';
+// Fixed admin user/password (set here per request). Replace values if needed.
+const ADMIN_USER = 'admin_user';
+const ADMIN_PASS = 'Admin_Pass12345678**+';
 
 function isAdminRequest(req) {
-  const header = req.headers['x-admin-token'] || req.query.admin_token;
-  return header && header === ADMIN_TOKEN;
+  // check token first
+  const token = req.headers['x-admin-token'] || req.query.admin_token;
+  if (token && token === ADMIN_TOKEN) return true;
+
+  // check username/password headers
+  const user = req.headers['x-admin-user'];
+  const pass = req.headers['x-admin-pass'];
+  if (user && pass && user === ADMIN_USER && pass === ADMIN_PASS) return true;
+
+  return false;
 }
 
 function requireAdmin(req, res, next) {
   if (isAdminRequest(req)) return next();
-  return res.status(401).json({ error: 'Unauthorized - admin token required' });
+  return res.status(401).json({ error: 'Unauthorized - admin credentials required' });
 }
 
-// simple endpoint to validate admin token from frontend
+// endpoint to validate admin credentials from frontend
 app.get('/admin/validate', (req, res) => {
   if (isAdminRequest(req)) return res.json({ ok: true });
   return res.status(401).json({ ok: false });
