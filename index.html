@@ -1849,7 +1849,9 @@ function openEditModal(opinion) {
                         try {
                             del.disabled = true;
                             del.textContent = '...';
-                            const res = await fetch(`/media/${item.id}`, { method: 'DELETE' });
+                            const token = sessionStorage.getItem('adminToken');
+                            const headers = token ? { 'x-admin-token': token } : {};
+                            const res = await fetch(`/media/${item.id}`, { method: 'DELETE', headers });
                             if (!res.ok) {
                                 let body = '';
                                 try { body = await res.text(); } catch (er) { body = String(er); }
@@ -1890,11 +1892,37 @@ function openEditModal(opinion) {
             } catch (err) { console.error('Error loading media', err); }
         }
 
-        // modal handlers
+        // modal handlers + admin protection
         const mediaModal = document.getElementById('media-modal');
         const mediaContent = mediaModal ? mediaModal.querySelector('.modal-content') : null;
-        document.getElementById('open-media-modal').addEventListener('click', () => {
+
+        function getAdminToken() { return sessionStorage.getItem('adminToken'); }
+
+        async function ensureAdmin() {
+            let token = getAdminToken();
+            if (!token) {
+                token = prompt('Introduce el token de administrador para subir multimedia (solo desarrollador)');
+                if (!token) return false;
+                sessionStorage.setItem('adminToken', token);
+            }
+            try {
+                const res = await fetch('/admin/validate', { headers: { 'x-admin-token': token } });
+                if (res.ok) return true;
+                // invalid -> remove token
+                sessionStorage.removeItem('adminToken');
+                alert('Token inválido');
+                return false;
+            } catch (e) {
+                sessionStorage.removeItem('adminToken');
+                alert('No se pudo validar el token. Revisa la conexión al servidor.');
+                return false;
+            }
+        }
+
+        document.getElementById('open-media-modal').addEventListener('click', async () => {
             if (!mediaModal) return;
+            const ok = await ensureAdmin();
+            if (!ok) return;
             mediaModal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
         });
@@ -1938,7 +1966,9 @@ function openEditModal(opinion) {
             try {
                 // disable button while uploading
                 if (uploadBtn) { uploadBtn.disabled = true; uploadBtn.textContent = 'Subiendo...'; }
-                const res = await fetch('/media', { method: 'POST', body: fd });
+                const token = sessionStorage.getItem('adminToken');
+                const headers = token ? { 'x-admin-token': token } : {};
+                const res = await fetch('/media', { method: 'POST', body: fd, headers });
                 if (!res.ok) {
                     // try to get server error body
                     let bodyText = '';

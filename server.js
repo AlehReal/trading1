@@ -60,6 +60,25 @@ const upload = multer({
 // expose uploads directory (files accessible at /uploads/*)
 app.use('/uploads', express.static(UPLOAD_DIR));
 
+// Admin token - set via env var in production. Default is a development token.
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'dev-token-please-change';
+
+function isAdminRequest(req) {
+  const header = req.headers['x-admin-token'] || req.query.admin_token;
+  return header && header === ADMIN_TOKEN;
+}
+
+function requireAdmin(req, res, next) {
+  if (isAdminRequest(req)) return next();
+  return res.status(401).json({ error: 'Unauthorized - admin token required' });
+}
+
+// simple endpoint to validate admin token from frontend
+app.get('/admin/validate', (req, res) => {
+  if (isAdminRequest(req)) return res.json({ ok: true });
+  return res.status(401).json({ ok: false });
+});
+
 // Endpoint to get all opinions
 app.get('/opinions', (req, res) => {
   const list = readOpinions();
@@ -170,8 +189,8 @@ app.get('/media', (req, res) => {
   res.json(list);
 });
 
-// Upload a media file (image or short video)
-app.post('/media', upload.single('file'), (req, res) => {
+// Upload a media file (image or short video) - restricted to admin
+app.post('/media', requireAdmin, upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
   const { originalname, filename, mimetype, size } = req.file;
   const item = {
@@ -189,8 +208,8 @@ app.post('/media', upload.single('file'), (req, res) => {
   res.status(201).json(item);
 });
 
-// Delete a media item and remove file
-app.delete('/media/:id', (req, res) => {
+// Delete a media item and remove file - restricted to admin
+app.delete('/media/:id', requireAdmin, (req, res) => {
   const id = Number(req.params.id);
   if (Number.isNaN(id)) return res.status(400).json({ error: 'Invalid id' });
 
